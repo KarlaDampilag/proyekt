@@ -3,6 +3,8 @@ import { ApolloProvider } from 'react-apollo';
 import withData from '../lib/withData';
 import Page from '../components/Page';
 
+import 'antd/dist/antd.css';
+
 class MyApp extends App {
     static async getInitialProps({ Component, ctx }) { // special next.js lifecycle method
         let pageProps = {};

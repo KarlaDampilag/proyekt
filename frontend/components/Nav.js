@@ -12,8 +12,8 @@ const Nav = (props) => {
       </Link>
       {props.user && (
         <>
-          <Link href="/">
-            <a>Sell</a>
+          <Link href="/products">
+            <a>Products</a>
           </Link>
           <Link href="/">
             <a>Orders</a>

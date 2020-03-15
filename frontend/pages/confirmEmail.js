@@ -15,7 +15,7 @@ const CONFIRM_EMAIL_MUTATION = gql`
   }
 `;
 
-const Sell = (props) => {
+const ConfirmEmailPage = (props) => {
     return (
         <Mutation
             mutation={CONFIRM_EMAIL_MUTATION}
@@ -31,4 +31,4 @@ const Sell = (props) => {
         </Mutation>
     );
 }
-export default Sell;
+export default ConfirmEmailPage;

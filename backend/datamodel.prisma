@@ -9,3 +9,25 @@ type User {
   resetToken: String
   resetTokenExpiry: String
 }
+
+type Product {
+  id: ID! @id
+  name: String!
+  salePrice: String!
+  costPrice: String
+  unit: String
+  currency: String
+  notes: String
+  sku: String
+  image: String
+  largeImage: String
+  categories: [Category!]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  user: User!
+}
+
+type Category {
+  id
+  name: String!
+}

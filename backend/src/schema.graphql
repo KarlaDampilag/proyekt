@@ -9,6 +9,7 @@ type Mutation {
     confirmEmail(confirmEmailToken: String!, email: String!): User!
     signOut: SuccessMessage
     signIn(email: String!, password: String!): User!
+    createProduct(name: String!, salePrice: String!, costPrice: String, unit: String, notes: String, image: String, largeImage: String): Product!
     # createItem(title: String, description: String, price: Int, image: String, largeImage: String): Item!
     # updateItem(id: ID!, title: String, description: String, price: Int): Item!
     # deleteItem(id: ID!): Item!
@@ -26,6 +27,9 @@ type Query {
     # itemsConnection(where: ItemWhereUniqueInput): ItemConnection!
     me: User
     users: [User]!
+    products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, first: Int): [Product]!
+    product(where: ProductWhereUniqueInput!): Product
+    productsConnection(where: ProductWhereUniqueInput): ProductConnection!
 }
 
 type User {
