@@ -133,7 +133,28 @@ const Mutations = {
 
     const product = await ctx.db.mutation.createProduct({
       data: {
+        ...args,
         // create a relationship between the product and the user
+        user: {
+          connect: {
+            id: ctx.request.userId
+          }
+        },
+        categories: { set: args.categories }
+      }
+    }, info);
+
+    return product;
+  },
+
+  async createCategory(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+
+    const category = await ctx.db.mutation.createCategory({
+      data: {
+        // create a relationship between the category and the user
         user: {
           connect: {
             id: ctx.request.userId
@@ -143,8 +164,32 @@ const Mutations = {
       }
     }, info);
 
-    return product;
+    return category;
   },
+
+  async createCategories(parent, args, ctx, info) {
+    // if (!ctx.request.userId) {
+    //   throw new Error('You must be logged in to do that.');
+    // }
+
+    const newCategories = [];
+    args.names.map(async name => {
+      const newCategory = await ctx.db.mutation.createCategory({
+        data: {
+          // create a relationship between the category and the user
+          user: {
+            connect: {
+              id: ctx.request.userId
+            }
+          },
+          name: name
+        }
+      });
+      newCategories.push(newCategory);
+    });
+
+    return newCategories;
+  }
 
   // updateItem(parent, args, ctx, info) {
   //   // first take a copy of the updates

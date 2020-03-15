@@ -21,13 +21,14 @@ type Product {
   sku: String
   image: String
   largeImage: String
-  categories: [Category!]
+  categories: [String!] @scalarList(strategy: RELATION)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   user: User!
 }
 
 type Category {
-  id
+  id: ID! @id
   name: String!
+  user: User!
 }

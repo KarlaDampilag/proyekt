@@ -9,7 +9,9 @@ type Mutation {
     confirmEmail(confirmEmailToken: String!, email: String!): User!
     signOut: SuccessMessage
     signIn(email: String!, password: String!): User!
-    createProduct(name: String!, salePrice: String!, costPrice: String, unit: String, notes: String, image: String, largeImage: String): Product!
+    createProduct(name: String!, salePrice: String!, costPrice: String, unit: String, notes: String, image: String, largeImage: String, categories: [String]): Product!
+    createCategory(name: String!): Category!
+    createCategories(names: [String!]!): [String!]!
     # createItem(title: String, description: String, price: Int, image: String, largeImage: String): Item!
     # updateItem(id: ID!, title: String, description: String, price: Int): Item!
     # deleteItem(id: ID!): Item!

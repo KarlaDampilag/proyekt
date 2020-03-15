@@ -1,5 +1,9 @@
 # source: https://us1.prisma.sh/karla-dampilag-e82c27/realdeal/dev
-# timestamp: Mon Mar 16 2020 00:19:23 GMT+0800 (Singapore Standard Time)
+# timestamp: Mon Mar 16 2020 02:21:38 GMT+0800 (Singapore Standard Time)
+
+type AggregateCategory {
+  count: Int!
+}
 
 type AggregateProduct {
   count: Int!
@@ -14,6 +18,193 @@ type BatchPayload {
   count: Long!
 }
 
+type Category implements Node {
+  id: ID!
+  name: String!
+  user: User!
+}
+
+"""A connection to a list of items."""
+type CategoryConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [CategoryEdge]!
+  aggregate: AggregateCategory!
+}
+
+input CategoryCreateInput {
+  id: ID
+  name: String!
+  user: UserCreateOneInput!
+}
+
+"""An edge in a connection."""
+type CategoryEdge {
+  """The item at the end of the edge."""
+  node: Category!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum CategoryOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type CategoryPreviousValues {
+  id: ID!
+  name: String!
+}
+
+type CategorySubscriptionPayload {
+  mutation: MutationType!
+  node: Category
+  updatedFields: [String!]
+  previousValues: CategoryPreviousValues
+}
+
+input CategorySubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CategorySubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CategorySubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CategorySubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: CategoryWhereInput
+}
+
+input CategoryUpdateInput {
+  name: String
+  user: UserUpdateOneRequiredInput
+}
+
+input CategoryUpdateManyMutationInput {
+  name: String
+}
+
+input CategoryWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CategoryWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CategoryWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CategoryWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  user: UserWhereInput
+}
+
+input CategoryWhereUniqueInput {
+  id: ID
+}
+
 scalar DateTime
 
 """
@@ -24,16 +215,22 @@ scalar Long
 
 type Mutation {
   createProduct(data: ProductCreateInput!): Product!
+  createCategory(data: CategoryCreateInput!): Category!
   createUser(data: UserCreateInput!): User!
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
+  updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteProduct(where: ProductWhereUniqueInput!): Product
+  deleteCategory(where: CategoryWhereUniqueInput!): Category
   deleteUser(where: UserWhereUniqueInput!): User
   upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
+  upsertCategory(where: CategoryWhereUniqueInput!, create: CategoryCreateInput!, update: CategoryUpdateInput!): Category!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
+  updateManyCategories(data: CategoryUpdateManyMutationInput!, where: CategoryWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManyProducts(where: ProductWhereInput): BatchPayload!
+  deleteManyCategories(where: CategoryWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
@@ -75,6 +272,7 @@ type Product implements Node {
   sku: String
   image: String
   largeImage: String
+  categories: [String!]!
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User!
@@ -90,6 +288,10 @@ type ProductConnection {
   aggregate: AggregateProduct!
 }
 
+input ProductCreatecategoriesInput {
+  set: [String!]
+}
+
 input ProductCreateInput {
   id: ID
   name: String!
@@ -101,6 +303,7 @@ input ProductCreateInput {
   sku: String
   image: String
   largeImage: String
+  categories: ProductCreatecategoriesInput
   user: UserCreateOneInput!
 }
 
@@ -151,6 +354,7 @@ type ProductPreviousValues {
   sku: String
   image: String
   largeImage: String
+  categories: [String!]!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -194,6 +398,10 @@ input ProductSubscriptionWhereInput {
   node: ProductWhereInput
 }
 
+input ProductUpdatecategoriesInput {
+  set: [String!]
+}
+
 input ProductUpdateInput {
   name: String
   salePrice: String
@@ -204,6 +412,7 @@ input ProductUpdateInput {
   sku: String
   image: String
   largeImage: String
+  categories: ProductUpdatecategoriesInput
   user: UserUpdateOneRequiredInput
 }
 
@@ -217,6 +426,7 @@ input ProductUpdateManyMutationInput {
   sku: String
   image: String
   largeImage: String
+  categories: ProductUpdatecategoriesInput
 }
 
 input ProductWhereInput {
@@ -681,10 +891,13 @@ input ProductWhereUniqueInput {
 
 type Query {
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
+  categories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   product(where: ProductWhereUniqueInput!): Product
+  category(where: CategoryWhereUniqueInput!): Category
   user(where: UserWhereUniqueInput!): User
   productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
+  categoriesConnection(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CategoryConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
@@ -696,6 +909,7 @@ type Query {
 
 type Subscription {
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
+  category(where: CategorySubscriptionWhereInput): CategorySubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 

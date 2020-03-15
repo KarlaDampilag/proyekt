@@ -1,9 +1,8 @@
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { Modal, Button, Input, Form, Spin } from 'antd';
-
-import formatMoney from '../lib/formatMoney';
+import { Modal, Button, Input, Form, Spin, Select } from 'antd';
+const { Option } = Select;
 
 const CREATE_PRODUCT_MUTATION = gql`
     mutation CREATE_PRODUCT_MUTATION(
@@ -14,6 +13,7 @@ const CREATE_PRODUCT_MUTATION = gql`
         $notes: String
         $image: String
         $largeImage: String
+        $categories: [String!]
     ) {
         createProduct(
             name: $name
@@ -23,9 +23,16 @@ const CREATE_PRODUCT_MUTATION = gql`
             notes: $notes
             image: $image
             largeImage: $largeImage
+            categories: $categories
         ) {
             id
         }
+    }
+`;
+
+const CREATE_CATEGORIES_MUTATION = gql`
+    mutation CREATE_CATEGORIES_MUTATION($names: [String!]!) {
+        createCategories(names: $names)
     }
 `;
 
@@ -36,9 +43,12 @@ const Products = (props) => {
     const [costPrice, setCostPrice] = React.useState();
     const [unit, setUnit] = React.useState();
     const [notes, setNotes] = React.useState();
+    const [categories, setCategories] = React.useState();
     const [image, setImage] = React.useState();
     const [largeImage, setLargeImage] = React.useState();
     const [isLoading, setIsLoading] = React.useState();
+    const [options, setOptions] = React.useState(['Nice', 'Bad', 'I dont care']);
+    const [newCategories, setNewCategories] = React.useState();
 
     const uploadFile = async (e) => {
         const files = e.target.files;
@@ -66,71 +76,99 @@ const Products = (props) => {
         wrapperCol: { offset: 8, span: 16 },
     };
 
-    console.log(salePrice)
+    // console.log(categories)
 
     return (
-        <Mutation mutation={CREATE_PRODUCT_MUTATION} variables={{ name, salePrice, costPrice, unit, notes, image, largeImage }}>
+        <Mutation mutation={CREATE_PRODUCT_MUTATION} variables={{ name, salePrice, costPrice, unit, notes, image, largeImage, categories }}>
             {(createProduct, { loading, error }) => (
-                <>
-                    <Modal visible={showAddProductModal} onCancel={() => setShowAddProductModal(false)} footer={null}>
-                        <Form {...layout} onFinish={async () => {
-                            const response = await createProduct();
-                            console.log(response);
-                        }}>
-                            <Form.Item
-                                label="Name"
-                                name="name"
-                                rules={[{ required: true, message: 'This field is required' }]}
-                            >
-                                <Input value={name} onChange={e => setName(e.target.value)} />
-                            </Form.Item>
+                <Mutation mutation={CREATE_CATEGORIES_MUTATION} variables={{ names: newCategories }}>
+                    {(createCategories, { loading, error }) => (
+                        <>
+                            <Modal visible={showAddProductModal} onCancel={() => setShowAddProductModal(false)} footer={null}>
+                                <Form {...layout} onFinish={async () => {
+                                    let response = await createProduct();
+                                    
+                                    if (newCategories.length > 0) {
+                                        response = await createCategories();
+                                    }
+                                    
+                                    setShowAddProductModal(false);
+                                }}>
+                                    <Form.Item
+                                        label="Name"
+                                        name="name"
+                                        rules={[{ required: true, message: 'This field is required' }]}
+                                    >
+                                        <Input value={name} onChange={e => setName(e.target.value)} />
+                                    </Form.Item>
 
-                            <Form.Item
-                                label="Sale Price"
-                                name="salePrice"
-                                rules={[{ required: true, message: 'This field is required' }]}
-                            >
-                                <Input type='number' onChange={e => setSalePrice(e.target.value.toString())} />
-                            </Form.Item>
+                                    <Form.Item
+                                        label="Sale Price"
+                                        name="salePrice"
+                                        rules={[{ required: true, message: 'This field is required' }]}
+                                    >
+                                        <Input type='number' onChange={e => setSalePrice(e.target.value.toString())} />
+                                    </Form.Item>
 
-                            <Form.Item
-                                label="Cost Price"
-                                name="costPrice"
-                            >
-                                <Input type='number' onChange={e => setCostPrice(e.target.value.toString())} />
-                            </Form.Item>
+                                    <Form.Item
+                                        label="Cost Price"
+                                        name="costPrice"
+                                    >
+                                        <Input type='number' onChange={e => setCostPrice(e.target.value.toString())} />
+                                    </Form.Item>
 
-                            <Form.Item
-                                label="Unit"
-                                name="unit"
-                            >
-                                <Input value={unit} onChange={e => setUnit(e.target.value)} />
-                            </Form.Item>
+                                    <Form.Item
+                                        label="Unit"
+                                        name="unit"
+                                    >
+                                        <Input value={unit} onChange={e => setUnit(e.target.value)} />
+                                    </Form.Item>
 
-                            <Form.Item
-                                label="Notes"
-                                name="notes"
-                            >
-                                <Input value={notes} onChange={e => setNotes(e.target.value)} />
-                            </Form.Item>
+                                    <Form.Item
+                                        label="Categories"
+                                        name="categories"
+                                    >
 
-                            <Form.Item
-                                label="Image"
-                                name="image"
-                            >
-                                <Input type='file' placeholder='Upload an image' onChange={uploadFile} />
-                                {isLoading && <Spin />}
-                                {image && <img src={image} width='200' alt='upload preview' />}
-                            </Form.Item>
+                                        <Select value={categories} mode='tags' onChange={value => {
+                                            setCategories(value);
+                                            const newCategoriesToSave = value.filter(category => options.indexOf(category) < 0);
+                                            setNewCategories(newCategoriesToSave);
+                                        }}>
+                                            {
+                                                options.map((option, key) => (
+                                                    <Option value={option} key={key}>{option}</Option>
+                                                ))
+                                            }
+                                        </Select>
 
-                            <Form.Item {...tailLayout}>
-                                <Button type="primary" htmlType="submit" disabled={isLoading}>Add Product</Button>
-                                <Button onClick={() => setShowAddProductModal(false)}>Cancel</Button>
-                            </Form.Item>
-                        </Form>
-                    </Modal>
-                    <Button onClick={() => setShowAddProductModal(true)}>Add Product</Button>
-                </>
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        label="Notes"
+                                        name="notes"
+                                    >
+                                        <Input value={notes} onChange={e => setNotes(e.target.value)} />
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        label="Image"
+                                        name="image"
+                                    >
+                                        <Input type='file' placeholder='Upload an image' onChange={uploadFile} />
+                                        {isLoading && <Spin />}
+                                        {image && <img src={image} width='200' alt='upload preview' />}
+                                    </Form.Item>
+
+                                    <Form.Item {...tailLayout}>
+                                        <Button type="primary" htmlType="submit" disabled={isLoading}>Add Product</Button>
+                                        <Button onClick={() => setShowAddProductModal(false)}>Cancel</Button>
+                                    </Form.Item>
+                                </Form>
+                            </Modal>
+                            <Button onClick={() => setShowAddProductModal(true)}>Add Product</Button>
+                        </>
+                    )}
+                </Mutation>
             )}
         </Mutation>
     )
