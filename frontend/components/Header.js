@@ -55,7 +55,7 @@ const StyledHeader = styled.header`
     }
 `;
 
-const Header = () => (
+const Header = (props) => (
     <StyledHeader>
         <div className='bar'>
             <Logo>
@@ -63,12 +63,11 @@ const Header = () => (
                     <a>Sick Fits</a>
                 </Link>
             </Logo>
-            <Nav />
+            <Nav user={props.user} />
         </div>
         <div className='sub-bar'>
             <Search />
         </div>
-        <Cart />
     </StyledHeader>
 );
 export default Header;

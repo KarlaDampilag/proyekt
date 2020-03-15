@@ -12,7 +12,7 @@ function createClient({ headers }) {
         fetchOptions: {
           credentials: 'include',
         },
-        headers: { cookie: headers && headers.cookie }
+        headers
       });
     },
     // local data

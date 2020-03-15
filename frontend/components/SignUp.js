@@ -6,81 +6,76 @@ import Error from './ErrorMessage';
 import { CURRENT_USER_QUERY } from './User';
 
 const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
-    signUp(email: $email, name: $name, password: $password) {
+  mutation SIGNUP_MUTATION($email: String!, $password: String!, $confirmPassword: String!) {
+    signUp(email: $email, password: $password, confirmPassword: $confirmPassword) {
       id
       email
-      name
     }
   }
 `;
 
-class SignUp extends Component {
-  state = {
-    name: '',
-    password: '',
-    email: '',
-  };
-  saveToState = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-  render() {
-    return (
-      <Mutation
-        mutation={SIGNUP_MUTATION}
-        variables={this.state}
-        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
-      >
-        {(signup, { error, loading }) => (
-          <Form
-            method="post"
-            onSubmit={async e => {
-              e.preventDefault();
-              await signup();
-              this.setState({ name: '', email: '', password: '' });
-            }}
-          >
-            <fieldset disabled={loading} aria-busy={loading}>
-              <h2>Sign Up for An Account</h2>
-              <Error error={error} />
-              <label htmlFor="email">
-                Email
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="email"
-                  value={this.state.email}
-                  onChange={this.saveToState}
-                />
-              </label>
-              <label htmlFor="name">
-                Name
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="name"
-                  value={this.state.name}
-                  onChange={this.saveToState}
-                />
-              </label>
-              <label htmlFor="password">
-                Password
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="password"
-                  value={this.state.password}
-                  onChange={this.saveToState}
-                />
-              </label>
+const SignUp = () => {
+  const [email, setEmail] = React.useState();
+  const [password, setPassword] = React.useState();
+  const [confirmPassword, setConfirmPassword] = React.useState();
 
-              <button type="submit">Sign Up!</button>
-            </fieldset>
-          </Form>
-        )}
-      </Mutation>
-    );
-  }
+  return (
+    <Mutation
+      mutation={SIGNUP_MUTATION}
+      variables={{email, password, confirmPassword}}
+      refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+    >
+      {(signUp, { error, loading }) => (
+        <Form
+          method="post"
+          onSubmit={async e => {
+            e.preventDefault();
+            await signUp();
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+          }}
+        >
+          <fieldset disabled={loading} aria-busy={loading}>
+            <h2>Sign Up for An Account</h2>
+            <Error error={error} />
+            <label htmlFor="email">
+              Email
+                <input
+                type="email"
+                name="email"
+                placeholder="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+            </label>
+            <label htmlFor="password">
+              Password
+                <input
+                type="password"
+                name="password"
+                placeholder="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+            </label>
+            <label htmlFor="confirmPassword">
+              Confirm Password
+                <input
+                type="password"
+                name="confirmPassword"
+                placeholder="confirm password"
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+              />
+            </label>
+
+            <button type="submit">Sign Up!</button>
+          </fieldset>
+        </Form>
+      )}
+    </Mutation>
+  );
 }
 
 export default SignUp;

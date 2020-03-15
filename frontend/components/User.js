@@ -7,19 +7,7 @@ const CURRENT_USER_QUERY = gql`
     me {
       id
       email
-      name
-      permissions
-      cart {
-        id
-        quantity
-        item {
-          id
-          title
-          price
-          image
-          description
-        }
-      }
+      verified
     }
   }
 `;

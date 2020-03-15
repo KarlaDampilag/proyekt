@@ -1,8 +1,9 @@
 import React from 'react';
 import styled, { ThemeProvider, injectGlobal } from 'styled-components';
 
-import Header from '../components/Header';
+import Header from './Header';
 import Meta from './Meta';
+import User from './User';
 
 const theme = {
     red: '#FF0000',
@@ -19,7 +20,7 @@ const StyledPage = styled.div`
     color: ${props => props.theme.black};
 `;
 
-const Inner = styled.div`
+const InnerStyles = styled.div`
     max-width: ${props => props.theme.maxWidth};
     margin: 0 auto;
     padding: 2rem;
@@ -54,16 +55,24 @@ injectGlobal`
 `;
 
 const Page = (props) => {
-
-        return (
-            <ThemeProvider theme={theme}>
-                <StyledPage>
-                    <Meta />
-                    <Header />
-                    <Inner>{props.children}</Inner>
-                </StyledPage>
-            </ThemeProvider>
-        )
-    
+    return (
+        <User>
+            {({ data: { me } }) => (
+                <ThemeProvider theme={theme}>
+                    <StyledPage>
+                        <Meta />
+                        <Header user={me} />
+                        <InnerStyles>
+                            <p>{me && me.email}</p>
+                            {me && !me.verified && (
+                                <span>{`Please verify your email to use Daily Sales & Inventory services. An email has been sent to ${me.email}`}</span>
+                            )}
+                            {props.children}
+                        </InnerStyles>
+                    </StyledPage>
+                </ThemeProvider>
+            )}
+        </User>
+    );
 }
 export default Page;
