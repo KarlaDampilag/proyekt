@@ -3,12 +3,13 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Head from 'next/head';
 import Link from 'next/link';
+import { Spin } from 'antd';
 import PaginationStyles from './styles/PaginationStyles';
 import { perPage } from '../config';
 
 const PAGINATION_QUERY = gql`
     query PAGINATION_QUERY {
-        itemsConnection {
+        productsConnection {
             aggregate {
                 count
             }
@@ -19,27 +20,26 @@ const PAGINATION_QUERY = gql`
 const Pagination = props => (
     <Query query={PAGINATION_QUERY}>
         {({ data, loading, error }) => {
-            if (loading) return <p>Loading...</p>;
-            const count = data.itemsConnection.aggregate.count;
+            if (loading) return <Spin />;
+            const count = data.productsConnection.aggregate.count;
             const pages = Math.ceil(count / perPage);
-            const page = props.page;
-            
+
             return (
                 <PaginationStyles>
                     <Head>
                         <title>
-                        Sick Fits! — Page {page} of {pages}
+                            Sick Fits! — Page {props.page} of {pages}
                         </title>
                     </Head>
                     <Link
                         prefetch
                         href={{
-                        pathname: 'items',
-                        query: { page: page - 1 },
+                            pathname: 'products',
+                            query: { page: props.page - 1 },
                         }}
                     >
-                        <a className="prev" aria-disabled={page <= 1}>
-                        ← Prev
+                        <a className="prev" aria-disabled={props.page <= 1}>
+                            ← Prev
                         </a>
                     </Link>
                     <p>
@@ -49,12 +49,12 @@ const Pagination = props => (
                     <Link
                         prefetch
                         href={{
-                        pathname: 'items',
-                        query: { page: page + 1 },
+                            pathname: 'products',
+                            query: { page: props.page+ 1 },
                         }}
                     >
-                        <a className="prev" aria-disabled={page >= pages}>
-                        Next →
+                        <a className="prev" aria-disabled={props.page >= pages}>
+                            Next →
                         </a>
                     </Link>
                 </PaginationStyles>
