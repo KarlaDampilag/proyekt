@@ -82,6 +82,14 @@ const ProductsList = styled.div`
     margin: 0 auto;
 `;
 
+const layout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 },
+};
+const tailLayout = {
+    wrapperCol: { offset: 8, span: 16 },
+};
+
 const Products = (props) => {
     const [showAddProductModal, setShowAddProductModal] = React.useState();
     const [name, setName] = React.useState();
@@ -129,24 +137,6 @@ const Products = (props) => {
         }
         setIsLoading(false);
     }
-
-    const clearAllFormFields = () => {
-        setName(null);
-        setSalePrice(null);
-        setCostPrice(null);
-        setUnit(null);
-        setCategories(null);
-        setNotes(null);
-        setImage(null);
-    }
-
-    const layout = {
-        labelCol: { span: 8 },
-        wrapperCol: { span: 16 },
-    };
-    const tailLayout = {
-        wrapperCol: { offset: 8, span: 16 },
-    };
 
     // console.log(categories)
     const [form] = Form.useForm();
@@ -282,3 +272,4 @@ const Products = (props) => {
     );
 }
 export default Products;
+export { layout, tailLayout, ALL_CATEGORIES_QUERY, CREATE_CATEGORIES_MUTATION };

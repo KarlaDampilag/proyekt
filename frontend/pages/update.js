@@ -1,11 +1,11 @@
 import React from 'react';
-import UpdateItem from '../components/UpdateItem';
+import UpdateProduct from '../components/UpdateProduct';
 
-const Update = (props) => {
+const UpdateProductPage = (props) => {
     return (
         <>
-            <UpdateItem id={props.query.id} />
+            <UpdateProduct id={props.query.id} />
         </>
     )
 }
-export default Update;
+export default UpdateProductPage;

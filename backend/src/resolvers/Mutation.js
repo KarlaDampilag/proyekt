@@ -189,22 +189,25 @@ const Mutations = {
     });
 
     return newCategories;
-  }
+  },
 
-  // updateItem(parent, args, ctx, info) {
-  //   // first take a copy of the updates
-  //   const updates = { ...args };
+  updateProduct(parent, args, ctx, info) {
+    // first take a copy of the updates
+    const updates = { ...args };
 
-  //   // remove id from the updates so it won't get updated
-  //   delete updates.id
+    // remove id from the updates so it won't get updated
+    delete updates.id
 
-  //   return ctx.db.mutation.updateItem({
-  //     data: updates,
-  //     where: {
-  //       id: args.id
-  //     }
-  //   }, info);
-  // },
+    return ctx.db.mutation.updateProduct({
+      data: {
+        ...updates,
+        categories: { set: args.categories }
+      },
+      where: {
+        id: args.id
+      }
+    }, info);
+  },
 
   // async deleteItem(parent, args, ctx, info) {
   //   const where = { id: args.id };

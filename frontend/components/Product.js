@@ -18,7 +18,7 @@ const Product = (props) => {
             {props.product.image && <img src={props.product.image} alt={props.product.title} />}
             <Title>
                 <Link href={{
-                    pathname: '/item',
+                    pathname: '/product',
                     query: { id: props.product.id }
                 }}>
                     <a>{props.product.name}</a>
