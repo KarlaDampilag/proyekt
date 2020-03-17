@@ -5,6 +5,10 @@ const Query = {
   // items: forwardTo('db'),
   // item: forwardTo('db'),
   // itemsConnection: forwardTo('db'),
+  products: forwardTo('db'),
+  product: forwardTo('db'),
+  productsConnection: forwardTo('db'),
+
   me(parent, args, ctx, info) {
     // check if there is a current user ID
     if (!ctx.request.userId) {
@@ -17,6 +21,7 @@ const Query = {
       info
     );
   },
+
   async users(parent, args, ctx, info) {
     // 1. check if logged in
     if (!ctx.request.userId) {
@@ -27,7 +32,8 @@ const Query = {
 
     // 3. query all users
     return ctx.db.query.users({}, info);
-  } 
+  },
+
 };
 
 module.exports = Query;
