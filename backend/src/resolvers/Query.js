@@ -8,6 +8,7 @@ const Query = {
   products: forwardTo('db'),
   product: forwardTo('db'),
   productsConnection: forwardTo('db'),
+  categories: forwardTo('db'),
 
   me(parent, args, ctx, info) {
     // check if there is a current user ID

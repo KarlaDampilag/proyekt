@@ -32,6 +32,7 @@ type Query {
     products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, first: Int): [Product]!
     product(where: ProductWhereUniqueInput!): Product
     productsConnection(where: ProductWhereUniqueInput): ProductConnection!
+    categories: [Category]!
 }
 
 type User {
