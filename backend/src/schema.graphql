@@ -40,4 +40,5 @@ type User {
   role: String!
   verified: Boolean!
   name: String
+  permissions: [Permission!]!
 }

@@ -17,6 +17,15 @@ const Mutations = {
     // lowercase their email
     args.email = args.email.toLowerCase();
 
+    // check if user already exists
+    const existingUser = await ctx.db.query.user({
+      where: { email: args.email }
+    });
+    
+    if (existingUser) {
+      throw new Error('Email is already taken')
+    }
+
     // hash their password
     const password = await bcrypt.hash(args.password, 10);
 
@@ -212,7 +221,6 @@ const Mutations = {
   async deleteProduct(parent, args, ctx, info) {
     const where = { id: args.id };
 
-    console.log(ctx.request.user)
     if (!ctx.request.user.permissions) {
       throw new Error("You don't have the required permissions to perform this action.");
     }
@@ -222,7 +230,6 @@ const Mutations = {
 
     // check if user owns item, or if they have permissions
     const ownsProduct = product.user.id == ctx.request.userId;
-    console.log(ctx.request.user.permissions)
     const hasPermissions = ctx.request.user.permissions.some(permission => (
       ['ADMIN','PRODUCTDELETE'].includes(permission)
     ));
