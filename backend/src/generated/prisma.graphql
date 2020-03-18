@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/karla-dampilag-e82c27/realdeal/dev
-# timestamp: Mon Mar 16 2020 02:21:38 GMT+0800 (Singapore Standard Time)
+# timestamp: Wed Mar 18 2020 22:14:40 GMT+0800 (Singapore Standard Time)
 
 type AggregateCategory {
   count: Int!
@@ -259,6 +259,15 @@ type PageInfo {
 
   """When paginating forwards, the cursor to continue."""
   endCursor: String
+}
+
+enum Permission {
+  ADMIN
+  USER
+  PRODUCTCREATE
+  PRODUCTUPDATE
+  PRODUCTDELETE
+  PERMISSIONUPDATE
 }
 
 type Product implements Node {
@@ -918,6 +927,7 @@ type User implements Node {
   email: String!
   password: String!
   role: String!
+  permissions: [Permission!]!
   verified: Boolean!
   name: String
   confirmEmailToken: String
@@ -945,11 +955,16 @@ input UserCreateInput {
   confirmEmailToken: String
   resetToken: String
   resetTokenExpiry: String
+  permissions: UserCreatepermissionsInput
 }
 
 input UserCreateOneInput {
   create: UserCreateInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreatepermissionsInput {
+  set: [Permission!]
 }
 
 """An edge in a connection."""
@@ -987,6 +1002,7 @@ type UserPreviousValues {
   email: String!
   password: String!
   role: String!
+  permissions: [Permission!]!
   verified: Boolean!
   name: String
   confirmEmailToken: String
@@ -1042,6 +1058,7 @@ input UserUpdateDataInput {
   confirmEmailToken: String
   resetToken: String
   resetTokenExpiry: String
+  permissions: UserUpdatepermissionsInput
 }
 
 input UserUpdateInput {
@@ -1053,6 +1070,7 @@ input UserUpdateInput {
   confirmEmailToken: String
   resetToken: String
   resetTokenExpiry: String
+  permissions: UserUpdatepermissionsInput
 }
 
 input UserUpdateManyMutationInput {
@@ -1064,6 +1082,7 @@ input UserUpdateManyMutationInput {
   confirmEmailToken: String
   resetToken: String
   resetTokenExpiry: String
+  permissions: UserUpdatepermissionsInput
 }
 
 input UserUpdateOneRequiredInput {
@@ -1071,6 +1090,10 @@ input UserUpdateOneRequiredInput {
   connect: UserWhereUniqueInput
   update: UserUpdateDataInput
   upsert: UserUpsertNestedInput
+}
+
+input UserUpdatepermissionsInput {
+  set: [Permission!]
 }
 
 input UserUpsertNestedInput {

@@ -209,25 +209,31 @@ const Mutations = {
     }, info);
   },
 
-  // async deleteItem(parent, args, ctx, info) {
-  //   const where = { id: args.id };
+  async deleteProduct(parent, args, ctx, info) {
+    const where = { id: args.id };
 
-  //   // find the item
-  //   const item = await ctx.db.query.item({ where }, `{ id title user { id } }`);
+    console.log(ctx.request.user)
+    if (!ctx.request.user.permissions) {
+      throw new Error("You don't have the required permissions to perform this action.");
+    }
 
-  //   // check if user owns item, or if they have permissions
-  //   const ownsItem = item.user.id == ctx.request.userId;
-  //   const hasPermissions = ctx.request.user.permissions.some(permission => (
-  //     ['ADMIN','ITEMDELETE'].includes(permission)
-  //   ));
+  // find the product
+    const product = await ctx.db.query.product({ where }, `{ id name user { id } }`);
 
-  //   if (!ownsItem && !hasPermissions) {
-  //     throw new Error("You don't have the required permissions to perform this action.")
-  //   }
+    // check if user owns item, or if they have permissions
+    const ownsProduct = product.user.id == ctx.request.userId;
+    console.log(ctx.request.user.permissions)
+    const hasPermissions = ctx.request.user.permissions.some(permission => (
+      ['ADMIN','PRODUCTDELETE'].includes(permission)
+    ));
 
-  //   // delete item
-  //   return ctx.db.mutation.deleteItem({ where }, info);
-  // },
+    if (!ownsProduct && !hasPermissions) {
+      throw new Error("You don't have the required permissions to perform this action.");
+    }
+
+    // delete item
+    return ctx.db.mutation.deleteProduct({ where }, info);
+  },
 
   // async requestReset(parent, args, ctx, info) {
   //   // 1. Check if this is a real user

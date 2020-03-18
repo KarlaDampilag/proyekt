@@ -3,8 +3,8 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import styled from 'styled-components';
 
+import { userContext } from './Page';
 import Nav from './Nav';
-import Cart from './Cart';
 import Search from './Search';
 
 Router.onRouteChangeStart = () => {
@@ -55,19 +55,23 @@ const StyledHeader = styled.header`
     }
 `;
 
-const Header = (props) => (
-    <StyledHeader>
-        <div className='bar'>
-            <Logo>
-                <Link href='/'>
-                    <a>Sick Fits</a>
-                </Link>
-            </Logo>
-            <Nav user={props.user} />
-        </div>
-        <div className='sub-bar'>
-            <Search />
-        </div>
-    </StyledHeader>
+const Header = () => (
+    <userContext.Consumer>
+        {value => (
+            <StyledHeader>
+                <div className='bar'>
+                    <Logo>
+                        <Link href='/'>
+                            <a>Sick Fits</a>
+                        </Link>
+                    </Logo>
+                    <Nav user={value} />
+                </div>
+                <div className='sub-bar'>
+                    <Search />
+                </div>
+            </StyledHeader>
+        )}
+    </userContext.Consumer>
 );
 export default Header;

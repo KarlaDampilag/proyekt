@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { Modal, Button, Input, Form, Spin, Select } from 'antd';
 
+import { userContext } from './Page';
 import { perPage } from '../config';
 import ErrorMessage from './ErrorMessage';
 import Pagination from './Pagination';
@@ -142,134 +143,146 @@ const Products = (props) => {
     const [form] = Form.useForm();
 
     return (
-        <>
-            <div><Button onClick={() => setShowAddProductModal(true)}>Add Product</Button></div>
-            <Pagination page={props.page} />
-            <Query query={ALL_PRODUCTS_QUERY} variables={{
-                skip: props.page * perPage - perPage
-            }}>
-                {({ data, error, loading }) => (
+        <userContext.Consumer>
+            {value => {
+                if (!value) {
+                    return <p>You must be logged in to access this page.</p>
+                }
+                return (
                     <>
-                        {
-                            loading ? <Spin />
-                                : error ? <ErrorMessage error={error} />
-                                    : data.products && <ProductsList>{data.products.map(product => <Product product={product} key={product.id} />)}</ProductsList>
-                        }
+                        <div><Button onClick={() => setShowAddProductModal(true)}>Add Product</Button></div>
+                        <Pagination page={props.page} />
+                        <Query query={ALL_PRODUCTS_QUERY} variables={{
+                            skip: props.page * perPage - perPage
+                        }}>
+                            {({ data, error, loading }) => (
+                                <>
+                                    {
+                                        loading ? <Spin />
+                                            : error ? <ErrorMessage error={error} />
+                                                : data.products && <ProductsList>{data.products.map(product => <Product product={product} key={product.id} />)}</ProductsList>
+                                    }
 
-                        <Mutation
-                            mutation={CREATE_PRODUCT_MUTATION}
-                            variables={{ name, salePrice, costPrice, unit, notes, image, largeImage, categories }}
-                            update={update}
-                        >
-                            {(createProduct, { loading, error }) => {
-                                const createProductLoading = loading;
-                                return (
-                                    <Query query={ALL_CATEGORIES_QUERY}>
-                                        {({ data, loading, error }) => {
-                                            const options = _.map(data.categories, category => category.name);
+                                    <Mutation
+                                        mutation={CREATE_PRODUCT_MUTATION}
+                                        variables={{ name, salePrice, costPrice, unit, notes, image, largeImage, categories }}
+                                        update={update}
+                                    >
+                                        {(createProduct, { loading, error }) => {
+                                            const createProductLoading = loading;
                                             return (
-                                                <Mutation mutation={CREATE_CATEGORIES_MUTATION} variables={{ names: newCategories }}>
-                                                    {(createCategories, { loading, error }) => (
-                                                            <>
-                                                                <Modal visible={showAddProductModal} onCancel={() => setShowAddProductModal(false)} footer={null}>
-                                                                    <Form {...layout} form={form} onFinish={async () => {
-                                                                        let response = await createProduct();
+                                                <Query query={ALL_CATEGORIES_QUERY}>
+                                                    {({ data, loading, error }) => {
+                                                        if (data && data.categories) {
+                                                            const options = _.map(data.categories, category => category.name);
+                                                            return (
+                                                                <Mutation mutation={CREATE_CATEGORIES_MUTATION} variables={{ names: newCategories }}>
+                                                                    {(createCategories, { loading, error }) => (
+                                                                        <>
+                                                                            <Modal visible={showAddProductModal} onCancel={() => setShowAddProductModal(false)} footer={null}>
+                                                                                <Form {...layout} form={form} onFinish={async () => {
+                                                                                    let response = await createProduct();
 
-                                                                        if (newCategories && newCategories.length > 0) {
-                                                                            response = await createCategories();
-                                                                        }
+                                                                                    if (newCategories && newCategories.length > 0) {
+                                                                                        response = await createCategories();
+                                                                                    }
 
-                                                                        setShowAddProductModal(false);
-                                                                        form.resetFields();
-                                                                    }}>
-                                                                        <Form.Item
-                                                                            label="Name"
-                                                                            name="name"
-                                                                            rules={[{ required: true, message: 'This field is required' }]}
-                                                                        >
-                                                                            <Input value={name} onChange={e => setName(e.target.value)} />
-                                                                        </Form.Item>
+                                                                                    setShowAddProductModal(false);
+                                                                                    form.resetFields();
+                                                                                }}>
+                                                                                    <Form.Item
+                                                                                        label="Name"
+                                                                                        name="name"
+                                                                                        rules={[{ required: true, message: 'This field is required' }]}
+                                                                                    >
+                                                                                        <Input value={name} onChange={e => setName(e.target.value)} />
+                                                                                    </Form.Item>
 
-                                                                        <Form.Item
-                                                                            label="Sale Price"
-                                                                            name="salePrice"
-                                                                            rules={[{ required: true, message: 'This field is required' }]}
-                                                                        >
-                                                                            <Input type='number' onChange={e => setSalePrice(e.target.value.toString())} />
-                                                                        </Form.Item>
+                                                                                    <Form.Item
+                                                                                        label="Sale Price"
+                                                                                        name="salePrice"
+                                                                                        rules={[{ required: true, message: 'This field is required' }]}
+                                                                                    >
+                                                                                        <Input type='number' onChange={e => setSalePrice(e.target.value.toString())} />
+                                                                                    </Form.Item>
 
-                                                                        <Form.Item
-                                                                            label="Cost Price"
-                                                                            name="costPrice"
-                                                                        >
-                                                                            <Input type='number' onChange={e => setCostPrice(e.target.value.toString())} />
-                                                                        </Form.Item>
+                                                                                    <Form.Item
+                                                                                        label="Cost Price"
+                                                                                        name="costPrice"
+                                                                                    >
+                                                                                        <Input type='number' onChange={e => setCostPrice(e.target.value.toString())} />
+                                                                                    </Form.Item>
 
-                                                                        <Form.Item
-                                                                            label="Unit"
-                                                                            name="unit"
-                                                                        >
-                                                                            <Input value={unit} onChange={e => setUnit(e.target.value)} />
-                                                                        </Form.Item>
+                                                                                    <Form.Item
+                                                                                        label="Unit"
+                                                                                        name="unit"
+                                                                                    >
+                                                                                        <Input value={unit} onChange={e => setUnit(e.target.value)} />
+                                                                                    </Form.Item>
 
-                                                                        <Form.Item
-                                                                            label="Categories"
-                                                                            name="categories"
-                                                                        >
+                                                                                    <Form.Item
+                                                                                        label="Categories"
+                                                                                        name="categories"
+                                                                                    >
 
-                                                                            <Select value={categories} mode='tags' onChange={value => {
-                                                                                setCategories(value);
-                                                                                const newCategoriesToSave = value.filter(category => options.indexOf(category) < 0);
-                                                                                setNewCategories(newCategoriesToSave);
-                                                                            }}>
-                                                                                {
-                                                                                    options.map((option, key) => (
-                                                                                        <Option value={option} key={key}>{option}</Option>
-                                                                                    ))
-                                                                                }
-                                                                            </Select>
+                                                                                        <Select value={categories} mode='tags' onChange={value => {
+                                                                                            setCategories(value);
+                                                                                            const newCategoriesToSave = value.filter(category => options.indexOf(category) < 0);
+                                                                                            setNewCategories(newCategoriesToSave);
+                                                                                        }}>
+                                                                                            {
+                                                                                                options.map((option, key) => (
+                                                                                                    <Option value={option} key={key}>{option}</Option>
+                                                                                                ))
+                                                                                            }
+                                                                                        </Select>
 
-                                                                        </Form.Item>
+                                                                                    </Form.Item>
 
-                                                                        <Form.Item
-                                                                            label="Notes"
-                                                                            name="notes"
-                                                                        >
-                                                                            <Input value={notes} onChange={e => setNotes(e.target.value)} />
-                                                                        </Form.Item>
+                                                                                    <Form.Item
+                                                                                        label="Notes"
+                                                                                        name="notes"
+                                                                                    >
+                                                                                        <Input value={notes} onChange={e => setNotes(e.target.value)} />
+                                                                                    </Form.Item>
 
-                                                                        <Form.Item
-                                                                            label="Image"
-                                                                            name="image"
-                                                                        >
-                                                                            <Input type='file' placeholder='Upload an image' onChange={uploadFile} />
-                                                                            {isLoading && <Spin />}
-                                                                            {image && <img src={image} width='200' alt='upload preview' />}
-                                                                        </Form.Item>
+                                                                                    <Form.Item
+                                                                                        label="Image"
+                                                                                        name="image"
+                                                                                    >
+                                                                                        <Input type='file' placeholder='Upload an image' onChange={uploadFile} />
+                                                                                        {isLoading && <Spin />}
+                                                                                        {image && <img src={image} width='200' alt='upload preview' />}
+                                                                                    </Form.Item>
 
-                                                                        <Form.Item {...tailLayout}>
-                                                                            <Button type="primary" htmlType="submit" disabled={isLoading || loading || createProductLoading}>
-                                                                                Add{createProductLoading && 'ing'} Product
+                                                                                    <Form.Item {...tailLayout}>
+                                                                                        <Button type="primary" htmlType="submit" disabled={isLoading || loading || createProductLoading}>
+                                                                                            Add{createProductLoading && 'ing'} Product
                                                                             </Button>
-                                                                            <Button onClick={() => setShowAddProductModal(false)}>Cancel</Button>
-                                                                        </Form.Item>
-                                                                    </Form>
-                                                                </Modal>
-                                                            </>
-                                                        )}
-                                                </Mutation>
-                                            )
+                                                                                        <Button onClick={() => setShowAddProductModal(false)}>Cancel</Button>
+                                                                                    </Form.Item>
+                                                                                </Form>
+                                                                            </Modal>
+                                                                        </>
+                                                                    )}
+                                                                </Mutation>
+                                                            );
+                                                        }
+                                                        return null
+                                                    }}
+                                                </Query>
+                                            );
                                         }}
-                                    </Query>
-                                );
-                            }}
-                        </Mutation>
+                                    </Mutation>
+                                </>
+                            )}
+                        </Query>
+                        <Pagination page={props.page} />
                     </>
-                )}
-            </Query>
-            <Pagination page={props.page} />
-        </>
+                );
+            }}
+        </userContext.Consumer>
     );
 }
 export default Products;
-export { layout, tailLayout, ALL_CATEGORIES_QUERY, CREATE_CATEGORIES_MUTATION };
+export { layout, tailLayout, ALL_CATEGORIES_QUERY, CREATE_CATEGORIES_MUTATION, ALL_PRODUCTS_QUERY };

@@ -1,8 +1,18 @@
+enum Permission {
+  ADMIN
+  USER
+  PRODUCTCREATE
+  PRODUCTUPDATE
+  PRODUCTDELETE
+  PERMISSIONUPDATE
+}
+
 type User {
   id: ID! @id
   email: String! @unique
   password: String!
   role: String!
+  permissions: [Permission!]! @scalarList(strategy: RELATION)
   verified: Boolean!
   name: String
   confirmEmailToken: String

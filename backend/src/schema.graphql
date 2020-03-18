@@ -13,7 +13,7 @@ type Mutation {
     createCategory(name: String!): Category!
     createCategories(names: [String!]!): [String!]!
     updateProduct(id: ID!, name: String, salePrice: String, costPrice: String,  unit: String, notes: String, image: String, largeImage: String, categories: [String]): Product!
-    # deleteItem(id: ID!): Item!
+    deleteProduct(id: ID!): Product!
     # requestReset(email: String!): SuccessMessage
     # resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
     # updatePermissions(permissions: [Permission], userId: ID!): User

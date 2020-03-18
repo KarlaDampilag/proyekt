@@ -54,25 +54,30 @@ injectGlobal`
     button {  font-family: 'radnika_next'; }
 `;
 
+const userContext = React.createContext({ user: {} });
+
 const Page = (props) => {
     return (
         <User>
             {({ data: { me } }) => (
-                <ThemeProvider theme={theme}>
-                    <StyledPage>
-                        <Meta />
-                        <Header user={me} />
-                        <InnerStyles>
-                            <p>{me && me.email}</p>
-                            {me && !me.verified && (
-                                <span>{`Please verify your email to use Daily Sales & Inventory services. An email has been sent to ${me.email}`}</span>
-                            )}
-                            {props.children}
-                        </InnerStyles>
-                    </StyledPage>
-                </ThemeProvider>
+                <userContext.Provider value={me}>
+                    <ThemeProvider theme={theme}>
+                        <StyledPage>
+                            <Meta />
+                            <Header />
+                            <InnerStyles>
+                                <p>{me && me.email}</p>
+                                {me && !me.verified && (
+                                    <span>{`Please verify your email to use Daily Sales & Inventory services. An email has been sent to ${me.email}`}</span>
+                                )}
+                                {props.children}
+                            </InnerStyles>
+                        </StyledPage>
+                    </ThemeProvider>
+                </userContext.Provider>
             )}
         </User>
     );
 }
 export default Page;
+export { userContext };

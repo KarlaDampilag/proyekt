@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Title from './styles/Title';
 import ProductStyles from './styles/ProductStyles';
 import PriceTag from './styles/PriceTag';
-import DeleteItem from './DeleteItem';
+import DeleteItem from './DeleteProduct';
 import AddToCart from './AddToCart';
 
 const Product = (props) => {
