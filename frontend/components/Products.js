@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import { Modal, Button, Input, Form, Spin, Select } from 'antd';
+import { Modal, Button, Input, Form, Spin, Select , message } from 'antd';
 
 import { userContext } from './Page';
 import { perPage } from '../config';
@@ -179,7 +179,7 @@ const Products = (props) => {
                                                                 <Mutation mutation={CREATE_CATEGORIES_MUTATION} variables={{ names: newCategories }}>
                                                                     {(createCategories, { loading, error }) => (
                                                                         <>
-                                                                            <Modal visible={showAddProductModal} onCancel={() => setShowAddProductModal(false)} footer={null}>
+                                                                            <Modal title='Add a Product' visible={showAddProductModal} onCancel={() => setShowAddProductModal(false)} footer={null}>
                                                                                 <Form {...layout} form={form} onFinish={async () => {
                                                                                     let response = await createProduct();
 
@@ -187,8 +187,12 @@ const Products = (props) => {
                                                                                         response = await createCategories();
                                                                                     }
 
-                                                                                    setShowAddProductModal(false);
-                                                                                    form.resetFields();
+                                                                                    if (!error) {
+                                                                                        setShowAddProductModal(false);
+                                                                                        form.resetFields();
+                                                                                        message.success('Product added')
+                                                                                    }
+                                                                                    
                                                                                 }}>
                                                                                     <Form.Item
                                                                                         label="Name"
@@ -258,7 +262,7 @@ const Products = (props) => {
                                                                                     <Form.Item {...tailLayout}>
                                                                                         <Button type="primary" htmlType="submit" disabled={isLoading || loading || createProductLoading}>
                                                                                             Add{createProductLoading && 'ing'} Product
-                                                                            </Button>
+                                                                                        </Button>
                                                                                         <Button onClick={() => setShowAddProductModal(false)}>Cancel</Button>
                                                                                     </Form.Item>
                                                                                 </Form>

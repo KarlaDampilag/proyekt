@@ -7,16 +7,16 @@ const Nav = (props) => {
   return (
     <NavStyles>
       {props.user && props.user.email}
-      <Link href="/">
-        <a>Shop</a>
-      </Link>
       {props.user && (
         <>
           <Link href="/products">
             <a>Products</a>
           </Link>
           <Link href="/">
-            <a>Orders</a>
+            <a>Sales</a>
+          </Link>
+          <Link href="/inventories">
+            <a>Inventories</a>
           </Link>
           <Link href="/me">
             <a>Account</a>

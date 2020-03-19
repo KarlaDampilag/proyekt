@@ -177,9 +177,9 @@ const Mutations = {
   },
 
   async createCategories(parent, args, ctx, info) {
-    // if (!ctx.request.userId) {
-    //   throw new Error('You must be logged in to do that.');
-    // }
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
 
     const newCategories = [];
     args.names.map(async name => {
@@ -231,7 +231,7 @@ const Mutations = {
     // check if user owns item, or if they have permissions
     const ownsProduct = product.user.id == ctx.request.userId;
     const hasPermissions = ctx.request.user.permissions.some(permission => (
-      ['ADMIN','PRODUCTDELETE'].includes(permission)
+      ['ADMIN','PRODUCT'].includes(permission)
     ));
 
     if (!ownsProduct && !hasPermissions) {
@@ -240,6 +240,26 @@ const Mutations = {
 
     // delete item
     return ctx.db.mutation.deleteProduct({ where }, info);
+  },
+
+  async createInventory(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+
+    const inventory = await ctx.db.mutation.createInventory({
+      data: {
+        // create a relationship between the inventory and the user
+        user: {
+          connect: {
+            id: ctx.request.userId
+          }
+        },
+        ...args
+      }
+    }, info);
+
+    return inventory;
   },
 
   // async requestReset(parent, args, ctx, info) {

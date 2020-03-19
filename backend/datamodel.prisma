@@ -1,10 +1,16 @@
 enum Permission {
   ADMIN
-  USER
-  PRODUCTCREATE
-  PRODUCTUPDATE
-  PRODUCTDELETE
+  PRODUCT
+  SALES
+  EXPENSE
+  INVENTORY
+  CUSTOMER
   PERMISSIONUPDATE
+}
+
+enum SpecialSaleDeductionType {
+  FLAT
+  PERCENTAGE
 }
 
 type User {
@@ -41,4 +47,54 @@ type Category {
   id: ID! @id
   name: String!
   user: User!
+}
+
+type Inventory {
+  id: ID! @id
+  user: User!
+  name: String!
+}
+
+type Address {
+  id: ID! @id
+  country: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zipCode: String
+}
+
+type Customer {
+  id: ID! @id
+  user: User!
+  name: String!
+  email: String
+  phone: Int
+  address: Address
+}
+
+type SpecialSaleDeduction {
+  id: ID! @id
+  type: SpecialSaleDeductionType!
+  value: Int
+}
+
+type Sale {
+  id: ID! @id
+  timestamp: DateTime!
+  user: User!
+  customer: Customer
+  discount: SpecialSaleDeduction @relation(name: "DiscountOfSale")
+  tax: SpecialSaleDeduction @relation(name: "TaxOfSale")
+  shipping: Int
+  note: String
+}
+
+type SaleItem {
+  id: ID! @id
+  sale: Sale!
+  product: Product!
+  quantity: Int!
+  discount: SpecialSaleDeduction @relation(name: "DiscountOfSaleItem")
 }

@@ -14,6 +14,9 @@ type Mutation {
     createCategories(names: [String!]!): [String!]!
     updateProduct(id: ID!, name: String, salePrice: String, costPrice: String,  unit: String, notes: String, image: String, largeImage: String, categories: [String]): Product!
     deleteProduct(id: ID!): Product!
+    createInventory(name: String!): Inventory!
+    updateInventory(id: ID!, name: String): Inventory!
+    deleteInventory(id: ID!): Inventory!
     # requestReset(email: String!): SuccessMessage
     # resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
     # updatePermissions(permissions: [Permission], userId: ID!): User
@@ -32,6 +35,8 @@ type Query {
     product(where: ProductWhereUniqueInput!): Product
     productsConnection(where: ProductWhereUniqueInput): ProductConnection!
     categories: [Category]!
+    inventory(where: InventoryWhereUniqueInput!): Inventory
+    inventories: [Inventory]!
 }
 
 type User {
