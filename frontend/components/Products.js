@@ -38,6 +38,14 @@ const Products = (props) => {
                                         loading={loading}
                                         dataSource={data.products}
                                         rowKey='id'
+                                        expandable={{
+                                            expandedRowRender: record => {
+                                                if (record.description) {
+                                                    return <p style={{ margin: 0 }}>{record.description}</p>
+                                                }
+                                                return <p style={{ margin: 0 }}>This product has no description.</p>
+                                            }
+                                        }}
                                         columns={[
                                             {
                                                 dataIndex: 'image',
