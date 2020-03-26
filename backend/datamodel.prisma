@@ -53,6 +53,8 @@ type Inventory {
   id: ID! @id
   user: User!
   name: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Address {

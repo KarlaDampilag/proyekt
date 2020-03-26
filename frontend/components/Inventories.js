@@ -1,13 +1,14 @@
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
-import { Modal, Form, Input, Button, message, Spin } from 'antd';
+import { Query } from 'react-apollo';
+import { Table } from 'antd';
 
-import { layout, tailLayout } from './Products';
+import { userContext } from './Page';
 import ErrorMessage from './ErrorMessage';
+import AddInventoryButton from './AddInventoryButton';
 
-const CREATE_INVENTORY_MUTATION = gql`
-    mutation CREATE_INVENTORY_MUTATION($name: String!) {
-        createInventory(name: $name) {
+const ALL_INVENTORIES_QUERY = gql`
+    query ALL_INVENTORIES_QUERY {
+        inventories(orderBy: createdAt_DESC) {
             id
             name
         }
@@ -15,52 +16,38 @@ const CREATE_INVENTORY_MUTATION = gql`
 `;
 
 const Inventories = () => {
-    const [modalIsVisible, setModalIsVisible] = React.useState();
-    const [inventoryName, setInventoryName] = React.useState();
-
     return (
-        <div>
-            <Mutation
-                mutation={CREATE_INVENTORY_MUTATION}
-                variables={{ name: inventoryName }}
-            >
-                {(createInventory, { loading, error }) => (
-                    <Modal
-                        title="Add an Inventory"
-                        visible={modalIsVisible}
-                        onCancel={() => setModalIsVisible(false)}
-                        footer={null}
-                    >
-                        <Form
-                            {...layout}
-                            onFinish={async () => {
-                                const response = await createInventory();
-                                if (!error) {
-                                    setModalIsVisible(false);
-                                    message.success('Inventory added');
-                                }
+        <userContext.Consumer>
+            {value => {
+                if (!value) {
+                    return <p>You must be logged in to access this page.</p>
+                }
+                return (
+                    <div>
+                        <AddInventoryButton />
+                        <Query query={ALL_INVENTORIES_QUERY}>
+                            {({ loading, data, error }) => {
+                                if (error) return <ErrorMessage error={error} />
+                                return (
+                                    <Table
+                                        dataSource={data.inventories}
+                                        loading={loading}
+                                        columns={[
+                                            {
+                                                title: 'Name',
+                                                dataIndex: 'name'
+                                            }
+                                        ]}
+                                        rowKey='id'
+                                    />
+                                )
                             }}
-                        >
-                            <ErrorMessage error={error} />
-                            <Form.Item
-                                label="Name"
-                                name="name"
-                                rules={[{ required: true, message: 'This field is required' }]}
-                            >
-                                <Input value={inventoryName} onChange={e => setInventoryName(e.target.value)} />
-                            </Form.Item>
-
-                            <Form.Item {...tailLayout}>
-                                <Button type="primary" htmlType="submit" disabled={loading}>
-                                    Add{loading && 'ing'} Inventory
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </Modal>
-                )}
-            </Mutation>
-            <Button onClick={() => setModalIsVisible(true)}>Add Inventory</Button>
-        </div>
-    )
+                        </Query>
+                    </div>
+                );
+            }}
+        </userContext.Consumer>
+    );
 }
 export default Inventories;
+export { ALL_INVENTORIES_QUERY };

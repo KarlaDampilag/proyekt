@@ -247,6 +247,8 @@ const Mutations = {
       throw new Error('You must be logged in to do that.');
     }
 
+    // TODO do not allow creation if user has free account
+
     const inventory = await ctx.db.mutation.createInventory({
       data: {
         // create a relationship between the inventory and the user

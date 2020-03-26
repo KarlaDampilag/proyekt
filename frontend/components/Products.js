@@ -34,7 +34,7 @@ const Products = (props) => {
                 return (
                     <>
                         <div><AddProductButton /></div>
-                        <Query query={ALL_PRODUCTS_QUERY} variables={{ skip: props.page * perPage - perPage }}>
+                        <Query query={ALL_PRODUCTS_QUERY}>
                             {({ error, loading, data }) => {
                                 if (error) return <ErrorMessage error={error} />
                                 return (

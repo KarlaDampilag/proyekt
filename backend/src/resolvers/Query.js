@@ -5,6 +5,7 @@ const Query = {
   // products: forwardTo('db'),
   // categories: forwardTo('db'),
   productsConnection: forwardTo('db'),
+  
   products(parent, args, ctx, info) {
     if (!ctx.request.userId) {
       throw new Error('You must be logged in to do that.'); // TODO only return products that belong to the user
@@ -24,18 +25,18 @@ const Query = {
     );
   },
 
-  productsConnection(parent, args, ctx, info) {
-    if (!ctx.request.userId) {
-      throw new Error('You must be logged in to do that.');
-    }
-    return ctx.db.query.productsConnection({}, info);
-  },
-
   categories(parent, args, ctx, info) {
     if (!ctx.request.userId) {
       throw new Error('You must be logged in to do that.');
     }
     return ctx.db.query.categories({}, info); // TODO only return categories that belong to the user
+  },
+
+  inventories(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+    return ctx.db.query.inventories({}, info); // TODO only return categories that belong to the user
   },
 
   me(parent, args, ctx, info) {
