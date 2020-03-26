@@ -4,7 +4,6 @@ const { hasPermission } = require('../utils');
 const Query = {
   // products: forwardTo('db'),
   // categories: forwardTo('db'),
-  // item: forwardTo('db'),
   productsConnection: forwardTo('db'),
   products(parent, args, ctx, info) {
     if (!ctx.request.userId) {
@@ -25,12 +24,12 @@ const Query = {
     );
   },
 
-  // productsConnection(parent, args, ctx, info) {
-  //   if (!ctx.request.userId) {
-  //     throw new Error('You must be logged in to do that.');
-  //   }
-  //   return ctx.db.query.productsConnection({}, info);
-  // },
+  productsConnection(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+    return ctx.db.query.productsConnection({}, info);
+  },
 
   categories(parent, args, ctx, info) {
     if (!ctx.request.userId) {

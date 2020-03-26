@@ -32,7 +32,7 @@ type Query {
     me: User
     users: [User]!
     products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, first: Int): [Product]!
-    product(where: ProductWhereUniqueInput!): Product
+    product(id: ID!): Product
     productsConnection(where: ProductWhereUniqueInput): ProductConnection!
     categories: [Category]!
     inventory(where: InventoryWhereUniqueInput!): Inventory

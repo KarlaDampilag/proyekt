@@ -3,15 +3,14 @@ import * as _ from 'lodash';
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import ErrorMessage from './ErrorMessage';
-import { Button, Input, Form, Spin, Select } from 'antd';
+import { Button, Input, Form, Spin, Select, message } from 'antd';
 
-import { layout, tailLayout, ALL_CATEGORIES_QUERY, CREATE_CATEGORIES_MUTATION } from './Products';
-
-const { Option } = Select;
+import { layout, tailLayout } from './AddProductButton';
+import { ALL_CATEGORIES_QUERY, CREATE_CATEGORIES_MUTATION } from './AddProductButton';
 
 const SINGLE_PRODUCT_QUERY = gql`
     query SINGLE_PRODUCT_QUERY($id: ID!) {
-        product(where: { id: $id }) {
+        product(id: $id) {
             id
             name
             salePrice
@@ -113,67 +112,70 @@ const UpdateProduct = (props) => {
         setIsLoading(false);
     }
 
-
     return (
         <Query query={SINGLE_PRODUCT_QUERY} variables={{ id: props.id }}>
-            {({ data, loading }) => {
+            {({ data, loading, error }) => {
                 const productData = data;
                 if (loading) return <p>Loading...</p>
+                if (error) return <ErrorMessage error={error} />
                 if (data && !data.product) return <p>No product found.</p>
                 return (
-                    <Mutation
-                        mutation={UPDATE_PRODUCT_MUTATION}
-                        variables={{ name, salePrice, costPrice, unit, notes, image, largeImage, categories }}
-                    >
-                        {(updateProduct, { loading, error }) => (
-                            <Query query={ALL_CATEGORIES_QUERY}>
-                                {({ data, loading, error }) => {
-                                    const options = _.map(data.categories, category => category.name);
-                                    return (
-                                        <Mutation mutation={CREATE_CATEGORIES_MUTATION} variables={{ names: newCategories }}>
-                                            {(createCategories, { loading, error }) => (
-                                                <Form
-                                                    {...layout}
-                                                    onFinish={async e => {
-                                                        handleUpdateProduct(e, updateProduct);
-                                                        if (newCategories && newCategories.length > 0) {
-                                                            const response = await createCategories();
-                                                        }
-                                                    }}
-                                                >
-                                                    <ErrorMessage error={error} />
-                                                    <Form.Item
-                                                        label="Name"
-                                                        name="name"
-                                                    >
-                                                        <Input defaultValue={productData.product.name} onChange={e => setName(e.target.value)} />
-                                                    </Form.Item>
+                    <Mutation mutation={CREATE_CATEGORIES_MUTATION} variables={{ names: newCategories }}>
+                        {(createCategories, { loading, error }) => (
+                            <Mutation
+                                mutation={UPDATE_PRODUCT_MUTATION}
+                                variables={{ name, salePrice, costPrice, unit, notes, image, largeImage, categories }}
+                            >
+                                {(updateProduct, { loading, error }) => (
+                                    <Form
+                                        {...layout}
+                                        onFinish={async e => {
+                                            await handleUpdateProduct(e, updateProduct);
+                                            if (newCategories && newCategories.length > 0) {
+                                                await createCategories();
+                                            }
+                                            if (!error) {
+                                                message.success('Product updated');
+                                            }
+                                        }}
+                                    >
+                                        <ErrorMessage error={error} />
+                                        <Form.Item
+                                            label="Name"
+                                            name="name"
+                                        >
+                                            <Input defaultValue={productData.product.name} onChange={e => setName(e.target.value)} />
+                                        </Form.Item>
 
-                                                    <Form.Item
-                                                        label="Sale Price"
-                                                        name="salePrice"
-                                                    >
-                                                        <Input type='number' defaultValue={productData.product.salePrice} onChange={e => setSalePrice(e.target.value.toString())} />
-                                                    </Form.Item>
+                                        <Form.Item
+                                            label="Sale Price"
+                                            name="salePrice"
+                                        >
+                                            <Input type='number' defaultValue={productData.product.salePrice} onChange={e => setSalePrice(e.target.value.toString())} />
+                                        </Form.Item>
 
-                                                    <Form.Item
-                                                        label="Cost Price"
-                                                        name="costPrice"
-                                                    >
-                                                        <Input type='number' defaultValue={productData.product.costPrice} onChange={e => setCostPrice(e.target.value.toString())} />
-                                                    </Form.Item>
+                                        <Form.Item
+                                            label="Cost Price"
+                                            name="costPrice"
+                                        >
+                                            <Input type='number' defaultValue={productData.product.costPrice} onChange={e => setCostPrice(e.target.value.toString())} />
+                                        </Form.Item>
 
-                                                    <Form.Item
-                                                        label="Unit"
-                                                        name="unit"
-                                                    >
-                                                        <Input defaultValue={productData.product.unit} onChange={e => setUnit(e.target.value)} />
-                                                    </Form.Item>
+                                        <Form.Item
+                                            label="Unit"
+                                            name="unit"
+                                        >
+                                            <Input defaultValue={productData.product.unit} onChange={e => setUnit(e.target.value)} />
+                                        </Form.Item>
 
-                                                    <Form.Item
-                                                        label="Categories"
-                                                        name="categories"
-                                                    >
+                                        <Form.Item
+                                            label="Categories"
+                                            name="categories"
+                                        >
+                                            <Query query={ALL_CATEGORIES_QUERY}>
+                                                {({ data }) => {
+                                                    const options = _.map(data.categories, category => category.name);
+                                                    return (
                                                         <Select defaultValue={productData.product.categories} mode='tags' onChange={value => {
                                                             setCategories(value);
                                                             const newCategoriesToSave = value.filter(category => options.indexOf(category) < 0);
@@ -185,42 +187,40 @@ const UpdateProduct = (props) => {
                                                                 ))
                                                             }
                                                         </Select>
+                                                    )
+                                                }}
+                                            </Query>
 
-                                                    </Form.Item>
+                                        </Form.Item>
 
-                                                    <Form.Item
-                                                        label="Notes"
-                                                        name="notes"
-                                                    >
-                                                        <Input defaultValue={productData.product.notes} onChange={e => setNotes(e.target.value)} />
-                                                    </Form.Item>
+                                        <Form.Item
+                                            label="Notes"
+                                            name="notes"
+                                        >
+                                            <Input defaultValue={productData.product.notes} onChange={e => setNotes(e.target.value)} />
+                                        </Form.Item>
 
-                                                    <Form.Item
-                                                        label="Image"
-                                                        name="image"
-                                                    >
-                                                        <Input type='file' placeholder='Upload an image' onChange={uploadFile} />
-                                                        {isLoading && <Spin />}
-                                                        {image ? <img src={image} width='200' alt='upload preview' />
-                                                            : productData.product.image && <img src={productData.product.image} width='200' alt='current image preview' />}
-                                                    </Form.Item>
+                                        <Form.Item
+                                            label="Image"
+                                            name="image"
+                                        >
+                                            <Input type='file' placeholder='Upload an image' onChange={uploadFile} />
+                                            {isLoading && <Spin />}
+                                            {image ? <img src={image} width='200' alt='upload preview' />
+                                                : productData.product.image && <img src={productData.product.image} width='200' alt='current image preview' />}
+                                        </Form.Item>
 
-                                                    <Form.Item {...tailLayout}>
-                                                        <Button type="primary" htmlType="submit" disabled={isLoading || loading}>
-                                                            Updat{loading ? 'ing' : 'e'} Product
-                                                        </Button>
-                                                    </Form.Item>
-                                                </Form>
-                                            )}
-                                        </Mutation>
-                                    );
-                                }}
-                            </Query>
+                                        <Form.Item {...tailLayout}>
+                                            <Button type="primary" htmlType="submit" disabled={isLoading || loading}>Updat{loading ? 'ing' : 'e'} Product</Button>
+                                        </Form.Item>
+                                    </Form>
+                                )}
+                            </Mutation>
                         )}
                     </Mutation>
                 )
             }}
-        </Query>
+        </Query >
     )
 }
 

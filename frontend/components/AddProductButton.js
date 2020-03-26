@@ -237,4 +237,4 @@ const tailLayout = {
 };
 
 export default AddProductButton;
-export { layout, tailLayout };
+export { layout, tailLayout, ALL_CATEGORIES_QUERY, CREATE_CATEGORIES_MUTATION };
