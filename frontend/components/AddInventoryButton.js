@@ -10,6 +10,7 @@ const CREATE_INVENTORY_MUTATION = gql`
         createInventory(name: $name) {
             id
             name
+            createdAt
         }
     }
 `;
