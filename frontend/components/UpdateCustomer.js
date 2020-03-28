@@ -7,21 +7,21 @@ import { Button, Input, Form, Spin, Select, message } from 'antd';
 
 import { layout, tailLayout } from './AddProductButton';
 
-const SINGLE_INVENTORY_QUERY = gql`
-    query SINGLE_INVENTORY_QUERY($id: ID!) {
-        inventory(id: $id) {
+const SINGLE_CUSTOMER_QUERY = gql`
+    query SINGLE_CUSTOMER_QUERY($id: ID!) {
+        customer(id: $id) {
             id
             name
         }
     }
 `;
 
-const UPDATE_INVENTORY_MUTATION = gql`
-    mutation UPDATE_INVENTORY_MUTATION(
+const UPDATE_CUSTOMER_MUTATION = gql`
+    mutation UPDATE_CUSTOMER_MUTATION(
         $id: ID!
         $name: String
     ) {
-        updateInventory(
+        updateCustomer(
             id: $id
             name: $name
         ) {
@@ -31,7 +31,7 @@ const UPDATE_INVENTORY_MUTATION = gql`
     }
 `;
 
-const UpdateInventory = (props) => {
+const UpdateCustomer = (props) => {
     const [name, setName] = React.useState();
 
     const handleUpdate = async (e, updateMutation) => {
@@ -44,23 +44,23 @@ const UpdateInventory = (props) => {
     }
 
     return (
-        <Query query={SINGLE_INVENTORY_QUERY} variables={{ id: props.id }}>
+        <Query query={SINGLE_CUSTOMER_QUERY} variables={{ id: props.id }}>
             {({ data, loading, error }) => {
                 if (loading) return <p>Loading...</p>
                 if (error) return <ErrorMessage error={error} />
-                if (data && !data.inventory) return <p>No inventory found.</p>
+                if (data && !data.customer) return <p>No customer found.</p>
                 return (
                     <Mutation
-                        mutation={UPDATE_INVENTORY_MUTATION}
+                        mutation={UPDATE_CUSTOMER_MUTATION}
                         variables={{ name }}
                     >
-                        {(updateInventory, { loading, error }) => (
+                        {(updateCustomer, { loading, error }) => (
                             <Form
                                 {...layout}
                                 onFinish={async e => {
-                                    await handleUpdate(e, updateInventory);
+                                    await handleUpdate(e, updateCustomer);
                                     if (!error) {
-                                        message.success('Inventory updated');
+                                        message.success('Customer updated');
                                     }
                                 }}
                             >
@@ -69,11 +69,11 @@ const UpdateInventory = (props) => {
                                     label="Name"
                                     name="name"
                                 >
-                                    <Input defaultValue={data.inventory.name} onChange={e => setName(e.target.value)} />
+                                    <Input defaultValue={data.customer.name} onChange={e => setName(e.target.value)} />
                                 </Form.Item>
 
                                 <Form.Item {...tailLayout}>
-                                    <Button type="primary" htmlType="submit" disabled={ loading}>Updat{loading ? 'ing' : 'e'} Inventory</Button>
+                                    <Button type="primary" htmlType="submit" disabled={ loading}>Updat{loading ? 'ing' : 'e'} Customer</Button>
                                 </Form.Item>
                             </Form>
                         )}
@@ -84,4 +84,4 @@ const UpdateInventory = (props) => {
     );
 }
 
-export default UpdateInventory;
+export default UpdateCustomer;

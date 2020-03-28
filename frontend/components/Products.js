@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Link from 'next/link'
+import Link from 'next/link';
 import { Tag, Table, Button } from 'antd';
 
 import { userContext } from './Page';
@@ -89,7 +89,7 @@ const Products = (props) => {
                                                     render: (value) => {
                                                         return (
                                                             <Link href={{
-                                                                pathname: '/update',
+                                                                pathname: '/updateProduct',
                                                                 query: { id: value }
                                                             }}>
                                                                 <a><Button>Edit</Button></a>

@@ -57,24 +57,18 @@ type Inventory {
   updatedAt: DateTime! @updatedAt
 }
 
-type Address {
-  id: ID! @id
-  country: String
-  street1: String
-  street2: String
-  city: String
-  state: String
-  zipCode: String
-  user: User! @relation(name: "OwnerOfCustomer")
-}
-
 type Customer {
   id: ID! @id
   user: User!
   name: String!
   email: String
   phone: String
-  address: Address
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zipCode: String
+  country: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

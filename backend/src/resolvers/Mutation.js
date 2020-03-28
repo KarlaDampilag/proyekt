@@ -264,59 +264,31 @@ const Mutations = {
     return inventory;
   },
 
+  updateInventory(parent, args, ctx, info) {
+    // first take a copy of the updates
+    const updates = { ...args };
+
+    // remove id from the updates so it won't get updated
+    delete updates.id
+
+    return ctx.db.mutation.updateInventory({
+      data: {
+        ...updates,
+      },
+      where: {
+        id: args.id
+      }
+    }, info);
+  },
+
   async createCustomer(parent, args, ctx, info) {
     if (!ctx.request.userId) {
       throw new Error('You must be logged in to do that.');
     }
 
-    const parameters = { ...args };
-    delete parameters.addressId;
-
-    let customer;
-
-    if (args.addressId) {
-      customer = await ctx.db.mutation.createCustomer({
-        data: {
-          // create a relationship between the customer and the user
-          user: {
-            connect: {
-              id: ctx.request.userId
-            }
-          },
-          // create relationship between the customer and the address
-          address: {
-            connect: {
-              id: args.addressId
-            }
-          },
-          ...parameters
-        }
-      }, info);
-    } else {
-      customer = await ctx.db.mutation.createCustomer({
-        data: {
-          // create a relationship between the customer and the user
-          user: {
-            connect: {
-              id: ctx.request.userId
-            }
-          },
-          ...parameters
-        }
-      }, info);
-    }
-
-    return customer;
-  },
-
-  async createAddress(parent, args, ctx, info) {
-    if (!ctx.request.userId) {
-      throw new Error('You must be logged in to do that.');
-    }
-
-    const customer = await ctx.db.mutation.createAddress({
+    const customer = await ctx.db.mutation.createCustomer({
       data: {
-        // create a relationship between the address and the user
+        // create a relationship between the customer and the user
         user: {
           connect: {
             id: ctx.request.userId
@@ -327,6 +299,23 @@ const Mutations = {
     }, info);
 
     return customer;
+  },
+
+  updateCustomer(parent, args, ctx, info) {
+    // first take a copy of the updates
+    const updates = { ...args };
+
+    // remove id from the updates so it won't get updated
+    delete updates.id
+
+    return ctx.db.mutation.updateCustomer({
+      data: {
+        ...updates,
+      },
+      where: {
+        id: args.id
+      }
+    }, info);
   },
 
   // async requestReset(parent, args, ctx, info) {

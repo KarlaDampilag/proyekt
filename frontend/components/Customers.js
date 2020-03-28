@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { Table } from 'antd';
+import Link from 'next/link';
+import { Table, Button } from 'antd';
 
 import { userContext } from './Page';
 import ErrorMessage from './ErrorMessage';
@@ -16,15 +17,13 @@ const ALL_CUSTOMERS_QUERY = gql`
             name
             email
             phone
-            address {
-                id
-                country
-                street1
-                street2
-                city
-                state
-                zipCode
-            }
+            street1
+            street2
+            city
+            state
+            zipCode
+            country
+            createdAt
         }
     }
 `;
@@ -62,13 +61,39 @@ const Customers = () => {
                                             },
                                             {
                                                 title: 'Address',
-                                                dataIndex: 'address',
-                                                render: (value) => {
-                                                    const returnValue = {...value};
-                                                    delete returnValue.id;
+                                                dataIndex: 'id',
+                                                key: 'address',
+                                                render: (value, record) => {
+                                                    const allowed = ['street1','street2','city','state','zipCode','country'];
+                                                    const filteredObj = _.pick(record, allowed)
                                                     return (
-                                                        _.filter(returnValue, parameter => parameter).join(', ')
+                                                        _.filter(Object.values(filteredObj), value => value).join(', ')
                                                     )
+                                                }
+                                            },
+                                            {
+                                                title: 'Edit ✏️',
+                                                dataIndex: 'id',
+                                                key: 'edit',
+                                                render: (value) => {
+                                                    return (
+                                                        <Link href={{
+                                                            pathname: '/updateCustomer',
+                                                            query: { id: value }
+                                                        }}>
+                                                            <a><Button>Edit</Button></a>
+                                                        </Link>
+                                                    );
+                                                }
+                                            },
+                                            {
+                                                title: 'Delete ',
+                                                dataIndex: 'id',
+                                                key: 'edit',
+                                                render: (value) => {
+                                                    return (
+                                                        <Button>Delete</Button>
+                                                    );
                                                 }
                                             }
                                         ]}

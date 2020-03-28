@@ -1,460 +1,5 @@
 # source: https://us1.prisma.sh/karla-dampilag-e82c27/realdeal/dev
-# timestamp: Sat Mar 28 2020 04:14:03 GMT+0800 (Singapore Standard Time)
-
-type Address implements Node {
-  id: ID!
-  country: String
-  street1: String
-  street2: String
-  city: String
-  state: String
-  zipCode: String
-  user: User!
-}
-
-"""A connection to a list of items."""
-type AddressConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [AddressEdge]!
-  aggregate: AggregateAddress!
-}
-
-input AddressCreateInput {
-  id: ID
-  country: String
-  street1: String
-  street2: String
-  city: String
-  state: String
-  zipCode: String
-  user: UserCreateOneInput!
-}
-
-input AddressCreateOneInput {
-  create: AddressCreateInput
-  connect: AddressWhereUniqueInput
-}
-
-"""An edge in a connection."""
-type AddressEdge {
-  """The item at the end of the edge."""
-  node: Address!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum AddressOrderByInput {
-  id_ASC
-  id_DESC
-  country_ASC
-  country_DESC
-  street1_ASC
-  street1_DESC
-  street2_ASC
-  street2_DESC
-  city_ASC
-  city_DESC
-  state_ASC
-  state_DESC
-  zipCode_ASC
-  zipCode_DESC
-}
-
-type AddressPreviousValues {
-  id: ID!
-  country: String
-  street1: String
-  street2: String
-  city: String
-  state: String
-  zipCode: String
-}
-
-type AddressSubscriptionPayload {
-  mutation: MutationType!
-  node: Address
-  updatedFields: [String!]
-  previousValues: AddressPreviousValues
-}
-
-input AddressSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [AddressSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [AddressSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [AddressSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: AddressWhereInput
-}
-
-input AddressUpdateDataInput {
-  country: String
-  street1: String
-  street2: String
-  city: String
-  state: String
-  zipCode: String
-  user: UserUpdateOneRequiredInput
-}
-
-input AddressUpdateInput {
-  country: String
-  street1: String
-  street2: String
-  city: String
-  state: String
-  zipCode: String
-  user: UserUpdateOneRequiredInput
-}
-
-input AddressUpdateManyMutationInput {
-  country: String
-  street1: String
-  street2: String
-  city: String
-  state: String
-  zipCode: String
-}
-
-input AddressUpdateOneInput {
-  create: AddressCreateInput
-  connect: AddressWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: AddressUpdateDataInput
-  upsert: AddressUpsertNestedInput
-}
-
-input AddressUpsertNestedInput {
-  update: AddressUpdateDataInput!
-  create: AddressCreateInput!
-}
-
-input AddressWhereInput {
-  """Logical AND on all given filters."""
-  AND: [AddressWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [AddressWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [AddressWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  country: String
-
-  """All values that are not equal to given value."""
-  country_not: String
-
-  """All values that are contained in given list."""
-  country_in: [String!]
-
-  """All values that are not contained in given list."""
-  country_not_in: [String!]
-
-  """All values less than the given value."""
-  country_lt: String
-
-  """All values less than or equal the given value."""
-  country_lte: String
-
-  """All values greater than the given value."""
-  country_gt: String
-
-  """All values greater than or equal the given value."""
-  country_gte: String
-
-  """All values containing the given string."""
-  country_contains: String
-
-  """All values not containing the given string."""
-  country_not_contains: String
-
-  """All values starting with the given string."""
-  country_starts_with: String
-
-  """All values not starting with the given string."""
-  country_not_starts_with: String
-
-  """All values ending with the given string."""
-  country_ends_with: String
-
-  """All values not ending with the given string."""
-  country_not_ends_with: String
-  street1: String
-
-  """All values that are not equal to given value."""
-  street1_not: String
-
-  """All values that are contained in given list."""
-  street1_in: [String!]
-
-  """All values that are not contained in given list."""
-  street1_not_in: [String!]
-
-  """All values less than the given value."""
-  street1_lt: String
-
-  """All values less than or equal the given value."""
-  street1_lte: String
-
-  """All values greater than the given value."""
-  street1_gt: String
-
-  """All values greater than or equal the given value."""
-  street1_gte: String
-
-  """All values containing the given string."""
-  street1_contains: String
-
-  """All values not containing the given string."""
-  street1_not_contains: String
-
-  """All values starting with the given string."""
-  street1_starts_with: String
-
-  """All values not starting with the given string."""
-  street1_not_starts_with: String
-
-  """All values ending with the given string."""
-  street1_ends_with: String
-
-  """All values not ending with the given string."""
-  street1_not_ends_with: String
-  street2: String
-
-  """All values that are not equal to given value."""
-  street2_not: String
-
-  """All values that are contained in given list."""
-  street2_in: [String!]
-
-  """All values that are not contained in given list."""
-  street2_not_in: [String!]
-
-  """All values less than the given value."""
-  street2_lt: String
-
-  """All values less than or equal the given value."""
-  street2_lte: String
-
-  """All values greater than the given value."""
-  street2_gt: String
-
-  """All values greater than or equal the given value."""
-  street2_gte: String
-
-  """All values containing the given string."""
-  street2_contains: String
-
-  """All values not containing the given string."""
-  street2_not_contains: String
-
-  """All values starting with the given string."""
-  street2_starts_with: String
-
-  """All values not starting with the given string."""
-  street2_not_starts_with: String
-
-  """All values ending with the given string."""
-  street2_ends_with: String
-
-  """All values not ending with the given string."""
-  street2_not_ends_with: String
-  city: String
-
-  """All values that are not equal to given value."""
-  city_not: String
-
-  """All values that are contained in given list."""
-  city_in: [String!]
-
-  """All values that are not contained in given list."""
-  city_not_in: [String!]
-
-  """All values less than the given value."""
-  city_lt: String
-
-  """All values less than or equal the given value."""
-  city_lte: String
-
-  """All values greater than the given value."""
-  city_gt: String
-
-  """All values greater than or equal the given value."""
-  city_gte: String
-
-  """All values containing the given string."""
-  city_contains: String
-
-  """All values not containing the given string."""
-  city_not_contains: String
-
-  """All values starting with the given string."""
-  city_starts_with: String
-
-  """All values not starting with the given string."""
-  city_not_starts_with: String
-
-  """All values ending with the given string."""
-  city_ends_with: String
-
-  """All values not ending with the given string."""
-  city_not_ends_with: String
-  state: String
-
-  """All values that are not equal to given value."""
-  state_not: String
-
-  """All values that are contained in given list."""
-  state_in: [String!]
-
-  """All values that are not contained in given list."""
-  state_not_in: [String!]
-
-  """All values less than the given value."""
-  state_lt: String
-
-  """All values less than or equal the given value."""
-  state_lte: String
-
-  """All values greater than the given value."""
-  state_gt: String
-
-  """All values greater than or equal the given value."""
-  state_gte: String
-
-  """All values containing the given string."""
-  state_contains: String
-
-  """All values not containing the given string."""
-  state_not_contains: String
-
-  """All values starting with the given string."""
-  state_starts_with: String
-
-  """All values not starting with the given string."""
-  state_not_starts_with: String
-
-  """All values ending with the given string."""
-  state_ends_with: String
-
-  """All values not ending with the given string."""
-  state_not_ends_with: String
-  zipCode: String
-
-  """All values that are not equal to given value."""
-  zipCode_not: String
-
-  """All values that are contained in given list."""
-  zipCode_in: [String!]
-
-  """All values that are not contained in given list."""
-  zipCode_not_in: [String!]
-
-  """All values less than the given value."""
-  zipCode_lt: String
-
-  """All values less than or equal the given value."""
-  zipCode_lte: String
-
-  """All values greater than the given value."""
-  zipCode_gt: String
-
-  """All values greater than or equal the given value."""
-  zipCode_gte: String
-
-  """All values containing the given string."""
-  zipCode_contains: String
-
-  """All values not containing the given string."""
-  zipCode_not_contains: String
-
-  """All values starting with the given string."""
-  zipCode_starts_with: String
-
-  """All values not starting with the given string."""
-  zipCode_not_starts_with: String
-
-  """All values ending with the given string."""
-  zipCode_ends_with: String
-
-  """All values not ending with the given string."""
-  zipCode_not_ends_with: String
-  user: UserWhereInput
-}
-
-input AddressWhereUniqueInput {
-  id: ID
-}
-
-type AggregateAddress {
-  count: Int!
-}
+# timestamp: Sun Mar 29 2020 03:11:21 GMT+0800 (Singapore Standard Time)
 
 type AggregateCategory {
   count: Int!
@@ -686,7 +231,12 @@ type Customer implements Node {
   name: String!
   email: String
   phone: String
-  address: Address
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zipCode: String
+  country: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -706,8 +256,13 @@ input CustomerCreateInput {
   name: String!
   email: String
   phone: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zipCode: String
+  country: String
   user: UserCreateOneInput!
-  address: AddressCreateOneInput
 }
 
 input CustomerCreateOneInput {
@@ -733,6 +288,18 @@ enum CustomerOrderByInput {
   email_DESC
   phone_ASC
   phone_DESC
+  street1_ASC
+  street1_DESC
+  street2_ASC
+  street2_DESC
+  city_ASC
+  city_DESC
+  state_ASC
+  state_DESC
+  zipCode_ASC
+  zipCode_DESC
+  country_ASC
+  country_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -744,6 +311,12 @@ type CustomerPreviousValues {
   name: String!
   email: String
   phone: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zipCode: String
+  country: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -791,22 +364,38 @@ input CustomerUpdateDataInput {
   name: String
   email: String
   phone: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zipCode: String
+  country: String
   user: UserUpdateOneRequiredInput
-  address: AddressUpdateOneInput
 }
 
 input CustomerUpdateInput {
   name: String
   email: String
   phone: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zipCode: String
+  country: String
   user: UserUpdateOneRequiredInput
-  address: AddressUpdateOneInput
 }
 
 input CustomerUpdateManyMutationInput {
   name: String
   email: String
   phone: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zipCode: String
+  country: String
 }
 
 input CustomerUpdateOneInput {
@@ -992,6 +581,246 @@ input CustomerWhereInput {
 
   """All values not ending with the given string."""
   phone_not_ends_with: String
+  street1: String
+
+  """All values that are not equal to given value."""
+  street1_not: String
+
+  """All values that are contained in given list."""
+  street1_in: [String!]
+
+  """All values that are not contained in given list."""
+  street1_not_in: [String!]
+
+  """All values less than the given value."""
+  street1_lt: String
+
+  """All values less than or equal the given value."""
+  street1_lte: String
+
+  """All values greater than the given value."""
+  street1_gt: String
+
+  """All values greater than or equal the given value."""
+  street1_gte: String
+
+  """All values containing the given string."""
+  street1_contains: String
+
+  """All values not containing the given string."""
+  street1_not_contains: String
+
+  """All values starting with the given string."""
+  street1_starts_with: String
+
+  """All values not starting with the given string."""
+  street1_not_starts_with: String
+
+  """All values ending with the given string."""
+  street1_ends_with: String
+
+  """All values not ending with the given string."""
+  street1_not_ends_with: String
+  street2: String
+
+  """All values that are not equal to given value."""
+  street2_not: String
+
+  """All values that are contained in given list."""
+  street2_in: [String!]
+
+  """All values that are not contained in given list."""
+  street2_not_in: [String!]
+
+  """All values less than the given value."""
+  street2_lt: String
+
+  """All values less than or equal the given value."""
+  street2_lte: String
+
+  """All values greater than the given value."""
+  street2_gt: String
+
+  """All values greater than or equal the given value."""
+  street2_gte: String
+
+  """All values containing the given string."""
+  street2_contains: String
+
+  """All values not containing the given string."""
+  street2_not_contains: String
+
+  """All values starting with the given string."""
+  street2_starts_with: String
+
+  """All values not starting with the given string."""
+  street2_not_starts_with: String
+
+  """All values ending with the given string."""
+  street2_ends_with: String
+
+  """All values not ending with the given string."""
+  street2_not_ends_with: String
+  city: String
+
+  """All values that are not equal to given value."""
+  city_not: String
+
+  """All values that are contained in given list."""
+  city_in: [String!]
+
+  """All values that are not contained in given list."""
+  city_not_in: [String!]
+
+  """All values less than the given value."""
+  city_lt: String
+
+  """All values less than or equal the given value."""
+  city_lte: String
+
+  """All values greater than the given value."""
+  city_gt: String
+
+  """All values greater than or equal the given value."""
+  city_gte: String
+
+  """All values containing the given string."""
+  city_contains: String
+
+  """All values not containing the given string."""
+  city_not_contains: String
+
+  """All values starting with the given string."""
+  city_starts_with: String
+
+  """All values not starting with the given string."""
+  city_not_starts_with: String
+
+  """All values ending with the given string."""
+  city_ends_with: String
+
+  """All values not ending with the given string."""
+  city_not_ends_with: String
+  state: String
+
+  """All values that are not equal to given value."""
+  state_not: String
+
+  """All values that are contained in given list."""
+  state_in: [String!]
+
+  """All values that are not contained in given list."""
+  state_not_in: [String!]
+
+  """All values less than the given value."""
+  state_lt: String
+
+  """All values less than or equal the given value."""
+  state_lte: String
+
+  """All values greater than the given value."""
+  state_gt: String
+
+  """All values greater than or equal the given value."""
+  state_gte: String
+
+  """All values containing the given string."""
+  state_contains: String
+
+  """All values not containing the given string."""
+  state_not_contains: String
+
+  """All values starting with the given string."""
+  state_starts_with: String
+
+  """All values not starting with the given string."""
+  state_not_starts_with: String
+
+  """All values ending with the given string."""
+  state_ends_with: String
+
+  """All values not ending with the given string."""
+  state_not_ends_with: String
+  zipCode: String
+
+  """All values that are not equal to given value."""
+  zipCode_not: String
+
+  """All values that are contained in given list."""
+  zipCode_in: [String!]
+
+  """All values that are not contained in given list."""
+  zipCode_not_in: [String!]
+
+  """All values less than the given value."""
+  zipCode_lt: String
+
+  """All values less than or equal the given value."""
+  zipCode_lte: String
+
+  """All values greater than the given value."""
+  zipCode_gt: String
+
+  """All values greater than or equal the given value."""
+  zipCode_gte: String
+
+  """All values containing the given string."""
+  zipCode_contains: String
+
+  """All values not containing the given string."""
+  zipCode_not_contains: String
+
+  """All values starting with the given string."""
+  zipCode_starts_with: String
+
+  """All values not starting with the given string."""
+  zipCode_not_starts_with: String
+
+  """All values ending with the given string."""
+  zipCode_ends_with: String
+
+  """All values not ending with the given string."""
+  zipCode_not_ends_with: String
+  country: String
+
+  """All values that are not equal to given value."""
+  country_not: String
+
+  """All values that are contained in given list."""
+  country_in: [String!]
+
+  """All values that are not contained in given list."""
+  country_not_in: [String!]
+
+  """All values less than the given value."""
+  country_lt: String
+
+  """All values less than or equal the given value."""
+  country_lte: String
+
+  """All values greater than the given value."""
+  country_gt: String
+
+  """All values greater than or equal the given value."""
+  country_gte: String
+
+  """All values containing the given string."""
+  country_contains: String
+
+  """All values not containing the given string."""
+  country_not_contains: String
+
+  """All values starting with the given string."""
+  country_starts_with: String
+
+  """All values not starting with the given string."""
+  country_not_starts_with: String
+
+  """All values ending with the given string."""
+  country_ends_with: String
+
+  """All values not ending with the given string."""
+  country_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -1037,7 +866,6 @@ input CustomerWhereInput {
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
   user: UserWhereInput
-  address: AddressWhereInput
 }
 
 input CustomerWhereUniqueInput {
@@ -1296,7 +1124,6 @@ type Mutation {
   createInventory(data: InventoryCreateInput!): Inventory!
   createSaleItem(data: SaleItemCreateInput!): SaleItem!
   createProduct(data: ProductCreateInput!): Product!
-  createAddress(data: AddressCreateInput!): Address!
   createCustomer(data: CustomerCreateInput!): Customer!
   createSpecialSaleDeduction(data: SpecialSaleDeductionCreateInput!): SpecialSaleDeduction!
   createSale(data: SaleCreateInput!): Sale!
@@ -1305,7 +1132,6 @@ type Mutation {
   updateInventory(data: InventoryUpdateInput!, where: InventoryWhereUniqueInput!): Inventory
   updateSaleItem(data: SaleItemUpdateInput!, where: SaleItemWhereUniqueInput!): SaleItem
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
-  updateAddress(data: AddressUpdateInput!, where: AddressWhereUniqueInput!): Address
   updateCustomer(data: CustomerUpdateInput!, where: CustomerWhereUniqueInput!): Customer
   updateSpecialSaleDeduction(data: SpecialSaleDeductionUpdateInput!, where: SpecialSaleDeductionWhereUniqueInput!): SpecialSaleDeduction
   updateSale(data: SaleUpdateInput!, where: SaleWhereUniqueInput!): Sale
@@ -1314,7 +1140,6 @@ type Mutation {
   deleteInventory(where: InventoryWhereUniqueInput!): Inventory
   deleteSaleItem(where: SaleItemWhereUniqueInput!): SaleItem
   deleteProduct(where: ProductWhereUniqueInput!): Product
-  deleteAddress(where: AddressWhereUniqueInput!): Address
   deleteCustomer(where: CustomerWhereUniqueInput!): Customer
   deleteSpecialSaleDeduction(where: SpecialSaleDeductionWhereUniqueInput!): SpecialSaleDeduction
   deleteSale(where: SaleWhereUniqueInput!): Sale
@@ -1323,7 +1148,6 @@ type Mutation {
   upsertInventory(where: InventoryWhereUniqueInput!, create: InventoryCreateInput!, update: InventoryUpdateInput!): Inventory!
   upsertSaleItem(where: SaleItemWhereUniqueInput!, create: SaleItemCreateInput!, update: SaleItemUpdateInput!): SaleItem!
   upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
-  upsertAddress(where: AddressWhereUniqueInput!, create: AddressCreateInput!, update: AddressUpdateInput!): Address!
   upsertCustomer(where: CustomerWhereUniqueInput!, create: CustomerCreateInput!, update: CustomerUpdateInput!): Customer!
   upsertSpecialSaleDeduction(where: SpecialSaleDeductionWhereUniqueInput!, create: SpecialSaleDeductionCreateInput!, update: SpecialSaleDeductionUpdateInput!): SpecialSaleDeduction!
   upsertSale(where: SaleWhereUniqueInput!, create: SaleCreateInput!, update: SaleUpdateInput!): Sale!
@@ -1332,7 +1156,6 @@ type Mutation {
   updateManyInventories(data: InventoryUpdateManyMutationInput!, where: InventoryWhereInput): BatchPayload!
   updateManySaleItems(data: SaleItemUpdateManyMutationInput!, where: SaleItemWhereInput): BatchPayload!
   updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
-  updateManyAddresses(data: AddressUpdateManyMutationInput!, where: AddressWhereInput): BatchPayload!
   updateManyCustomers(data: CustomerUpdateManyMutationInput!, where: CustomerWhereInput): BatchPayload!
   updateManySpecialSaleDeductions(data: SpecialSaleDeductionUpdateManyMutationInput!, where: SpecialSaleDeductionWhereInput): BatchPayload!
   updateManySales(data: SaleUpdateManyMutationInput!, where: SaleWhereInput): BatchPayload!
@@ -1341,7 +1164,6 @@ type Mutation {
   deleteManyInventories(where: InventoryWhereInput): BatchPayload!
   deleteManySaleItems(where: SaleItemWhereInput): BatchPayload!
   deleteManyProducts(where: ProductWhereInput): BatchPayload!
-  deleteManyAddresses(where: AddressWhereInput): BatchPayload!
   deleteManyCustomers(where: CustomerWhereInput): BatchPayload!
   deleteManySpecialSaleDeductions(where: SpecialSaleDeductionWhereInput): BatchPayload!
   deleteManySales(where: SaleWhereInput): BatchPayload!
@@ -2049,7 +1871,6 @@ type Query {
   inventories(where: InventoryWhereInput, orderBy: InventoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Inventory]!
   saleItems(where: SaleItemWhereInput, orderBy: SaleItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SaleItem]!
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
-  addresses(where: AddressWhereInput, orderBy: AddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Address]!
   customers(where: CustomerWhereInput, orderBy: CustomerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Customer]!
   specialSaleDeductions(where: SpecialSaleDeductionWhereInput, orderBy: SpecialSaleDeductionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SpecialSaleDeduction]!
   sales(where: SaleWhereInput, orderBy: SaleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sale]!
@@ -2058,7 +1879,6 @@ type Query {
   inventory(where: InventoryWhereUniqueInput!): Inventory
   saleItem(where: SaleItemWhereUniqueInput!): SaleItem
   product(where: ProductWhereUniqueInput!): Product
-  address(where: AddressWhereUniqueInput!): Address
   customer(where: CustomerWhereUniqueInput!): Customer
   specialSaleDeduction(where: SpecialSaleDeductionWhereUniqueInput!): SpecialSaleDeduction
   sale(where: SaleWhereUniqueInput!): Sale
@@ -2067,7 +1887,6 @@ type Query {
   inventoriesConnection(where: InventoryWhereInput, orderBy: InventoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): InventoryConnection!
   saleItemsConnection(where: SaleItemWhereInput, orderBy: SaleItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SaleItemConnection!
   productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
-  addressesConnection(where: AddressWhereInput, orderBy: AddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AddressConnection!
   customersConnection(where: CustomerWhereInput, orderBy: CustomerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CustomerConnection!
   specialSaleDeductionsConnection(where: SpecialSaleDeductionWhereInput, orderBy: SpecialSaleDeductionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SpecialSaleDeductionConnection!
   salesConnection(where: SaleWhereInput, orderBy: SaleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SaleConnection!
@@ -2809,7 +2628,6 @@ type Subscription {
   inventory(where: InventorySubscriptionWhereInput): InventorySubscriptionPayload
   saleItem(where: SaleItemSubscriptionWhereInput): SaleItemSubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
-  address(where: AddressSubscriptionWhereInput): AddressSubscriptionPayload
   customer(where: CustomerSubscriptionWhereInput): CustomerSubscriptionPayload
   specialSaleDeduction(where: SpecialSaleDeductionSubscriptionWhereInput): SpecialSaleDeductionSubscriptionPayload
   sale(where: SaleSubscriptionWhereInput): SaleSubscriptionPayload

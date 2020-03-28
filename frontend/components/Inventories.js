@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { Table } from 'antd';
+import Link from 'next/link';
+import { Table, Button } from 'antd';
 
 import { userContext } from './Page';
 import ErrorMessage from './ErrorMessage';
@@ -36,6 +37,31 @@ const Inventories = () => {
                                             {
                                                 title: 'Name',
                                                 dataIndex: 'name'
+                                            },
+                                            {
+                                                title: 'Edit ✏️',
+                                                dataIndex: 'id',
+                                                key: 'edit',
+                                                render: (value) => {
+                                                    return (
+                                                        <Link href={{
+                                                            pathname: '/updateInventory',
+                                                            query: { id: value }
+                                                        }}>
+                                                            <a><Button>Edit</Button></a>
+                                                        </Link>
+                                                    );
+                                                }
+                                            },
+                                            {
+                                                title: 'Delete ',
+                                                dataIndex: 'id',
+                                                key: 'edit',
+                                                render: (value) => {
+                                                    return (
+                                                        <Button>Delete</Button>
+                                                    );
+                                                }
                                             }
                                         ]}
                                         rowKey='id'

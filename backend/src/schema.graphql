@@ -17,8 +17,8 @@ type Mutation {
     createInventory(name: String!): Inventory!
     updateInventory(id: ID!, name: String): Inventory!
     deleteInventory(id: ID!): Inventory!
-    createCustomer(name: String!, email: String, phone: String, addressId: String): Customer!
-    createAddress(street1: String, street2: String, city: String, state: String, zipCode: Int, country: String): Address!
+    createCustomer(name: String!, email: String, phone: String, street1: String, street2: String, city: String, state: String, zipCode: Int, country: String): Customer!
+    updateCustomer(id: ID!, name: String, email: String, phone: String, street1: String, street2: String, city: String, state: String, zipCode: Int, country: String): Customer!
     # requestReset(email: String!): SuccessMessage
     # resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
     # updatePermissions(permissions: [Permission], userId: ID!): User
@@ -37,11 +37,10 @@ type Query {
     product(id: ID!): Product
     # productsConnection(where: ProductWhereUniqueInput): ProductConnection!
     categories: [Category]!
-    inventory(where: InventoryWhereUniqueInput!): Inventory
     inventories(orderBy: InventoryOrderByInput): [Inventory]!
+    inventory(id: ID!): Inventory
     customers(orderBy: CustomerOrderByInput): [Customer]!
-    addresses(where: ProductWhereUniqueInput): [Address]!
-
+    customer(id: ID!): Customer
 }
 
 type User {

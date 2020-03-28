@@ -39,6 +39,18 @@ const Query = {
     return ctx.db.query.inventories({}, info); // TODO only return categories that belong to the user
   },
 
+  inventory(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+    return ctx.db.query.inventory( // TODO only return if it belongs to the user
+      {
+        where: { id: args.id },
+      },
+      info
+    );
+  },
+
   customers(parent, args, ctx, info) {
     if (!ctx.request.userId) {
       throw new Error('You must be logged in to do that.');
@@ -46,14 +58,17 @@ const Query = {
     return ctx.db.query.customers({}, info); // TODO only return what belongs to the user
   },
 
-  addresses(parent, args, ctx, info) {
+  customer(parent, args, ctx, info) {
     if (!ctx.request.userId) {
       throw new Error('You must be logged in to do that.');
     }
-    return ctx.db.query.addresses({}, info); // TODO only return what belongs to the user
+    return ctx.db.query.customer( // TODO only return if it belongs to the user
+      {
+        where: { id: args.id },
+      },
+      info
+    );
   },
-
-  
 
   me(parent, args, ctx, info) {
     // check if there is a current user ID
