@@ -4,6 +4,7 @@ import withData from '../lib/withData';
 import Page from '../components/Page';
 
 import 'antd/dist/antd.css';
+import 'react-phone-number-input/style.css';
 
 class MyApp extends App {
     static async getInitialProps({ Component, ctx }) { // special next.js lifecycle method
