@@ -18,6 +18,9 @@ const Nav = (props) => {
           <Link href="/inventories">
             <a>Inventories</a>
           </Link>
+          <Link href="/customers">
+            <a>Customers</a>
+          </Link>
           <Link href="/me">
             <a>Account</a>
           </Link>
