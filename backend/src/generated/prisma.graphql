@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/karla-dampilag-e82c27/realdeal/dev
-# timestamp: Sun Mar 29 2020 03:11:21 GMT+0800 (Singapore Standard Time)
+# timestamp: Sun Mar 29 2020 03:35:57 GMT+0800 (Singapore Standard Time)
 
 type AggregateCategory {
   count: Int!
@@ -22,10 +22,6 @@ type AggregateSale {
 }
 
 type AggregateSaleItem {
-  count: Int!
-}
-
-type AggregateSpecialSaleDeduction {
   count: Int!
 }
 
@@ -1125,7 +1121,6 @@ type Mutation {
   createSaleItem(data: SaleItemCreateInput!): SaleItem!
   createProduct(data: ProductCreateInput!): Product!
   createCustomer(data: CustomerCreateInput!): Customer!
-  createSpecialSaleDeduction(data: SpecialSaleDeductionCreateInput!): SpecialSaleDeduction!
   createSale(data: SaleCreateInput!): Sale!
   createUser(data: UserCreateInput!): User!
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
@@ -1133,7 +1128,6 @@ type Mutation {
   updateSaleItem(data: SaleItemUpdateInput!, where: SaleItemWhereUniqueInput!): SaleItem
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
   updateCustomer(data: CustomerUpdateInput!, where: CustomerWhereUniqueInput!): Customer
-  updateSpecialSaleDeduction(data: SpecialSaleDeductionUpdateInput!, where: SpecialSaleDeductionWhereUniqueInput!): SpecialSaleDeduction
   updateSale(data: SaleUpdateInput!, where: SaleWhereUniqueInput!): Sale
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteCategory(where: CategoryWhereUniqueInput!): Category
@@ -1141,7 +1135,6 @@ type Mutation {
   deleteSaleItem(where: SaleItemWhereUniqueInput!): SaleItem
   deleteProduct(where: ProductWhereUniqueInput!): Product
   deleteCustomer(where: CustomerWhereUniqueInput!): Customer
-  deleteSpecialSaleDeduction(where: SpecialSaleDeductionWhereUniqueInput!): SpecialSaleDeduction
   deleteSale(where: SaleWhereUniqueInput!): Sale
   deleteUser(where: UserWhereUniqueInput!): User
   upsertCategory(where: CategoryWhereUniqueInput!, create: CategoryCreateInput!, update: CategoryUpdateInput!): Category!
@@ -1149,7 +1142,6 @@ type Mutation {
   upsertSaleItem(where: SaleItemWhereUniqueInput!, create: SaleItemCreateInput!, update: SaleItemUpdateInput!): SaleItem!
   upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
   upsertCustomer(where: CustomerWhereUniqueInput!, create: CustomerCreateInput!, update: CustomerUpdateInput!): Customer!
-  upsertSpecialSaleDeduction(where: SpecialSaleDeductionWhereUniqueInput!, create: SpecialSaleDeductionCreateInput!, update: SpecialSaleDeductionUpdateInput!): SpecialSaleDeduction!
   upsertSale(where: SaleWhereUniqueInput!, create: SaleCreateInput!, update: SaleUpdateInput!): Sale!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyCategories(data: CategoryUpdateManyMutationInput!, where: CategoryWhereInput): BatchPayload!
@@ -1157,7 +1149,6 @@ type Mutation {
   updateManySaleItems(data: SaleItemUpdateManyMutationInput!, where: SaleItemWhereInput): BatchPayload!
   updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
   updateManyCustomers(data: CustomerUpdateManyMutationInput!, where: CustomerWhereInput): BatchPayload!
-  updateManySpecialSaleDeductions(data: SpecialSaleDeductionUpdateManyMutationInput!, where: SpecialSaleDeductionWhereInput): BatchPayload!
   updateManySales(data: SaleUpdateManyMutationInput!, where: SaleWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManyCategories(where: CategoryWhereInput): BatchPayload!
@@ -1165,7 +1156,6 @@ type Mutation {
   deleteManySaleItems(where: SaleItemWhereInput): BatchPayload!
   deleteManyProducts(where: ProductWhereInput): BatchPayload!
   deleteManyCustomers(where: CustomerWhereInput): BatchPayload!
-  deleteManySpecialSaleDeductions(where: SpecialSaleDeductionWhereInput): BatchPayload!
   deleteManySales(where: SaleWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
@@ -1872,7 +1862,6 @@ type Query {
   saleItems(where: SaleItemWhereInput, orderBy: SaleItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SaleItem]!
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   customers(where: CustomerWhereInput, orderBy: CustomerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Customer]!
-  specialSaleDeductions(where: SpecialSaleDeductionWhereInput, orderBy: SpecialSaleDeductionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SpecialSaleDeduction]!
   sales(where: SaleWhereInput, orderBy: SaleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sale]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   category(where: CategoryWhereUniqueInput!): Category
@@ -1880,7 +1869,6 @@ type Query {
   saleItem(where: SaleItemWhereUniqueInput!): SaleItem
   product(where: ProductWhereUniqueInput!): Product
   customer(where: CustomerWhereUniqueInput!): Customer
-  specialSaleDeduction(where: SpecialSaleDeductionWhereUniqueInput!): SpecialSaleDeduction
   sale(where: SaleWhereUniqueInput!): Sale
   user(where: UserWhereUniqueInput!): User
   categoriesConnection(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CategoryConnection!
@@ -1888,7 +1876,6 @@ type Query {
   saleItemsConnection(where: SaleItemWhereInput, orderBy: SaleItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SaleItemConnection!
   productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
   customersConnection(where: CustomerWhereInput, orderBy: CustomerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CustomerConnection!
-  specialSaleDeductionsConnection(where: SpecialSaleDeductionWhereInput, orderBy: SpecialSaleDeductionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SpecialSaleDeductionConnection!
   salesConnection(where: SaleWhereInput, orderBy: SaleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SaleConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
@@ -1904,8 +1891,10 @@ type Sale implements Node {
   timestamp: DateTime!
   user: User!
   customer: Customer
-  discount: SpecialSaleDeduction
-  tax: SpecialSaleDeduction
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
+  taxType: SpecialSaleDeductionType
+  taxValue: Int
   shipping: Int
   note: String
   createdAt: DateTime!
@@ -1925,12 +1914,14 @@ type SaleConnection {
 input SaleCreateInput {
   id: ID
   timestamp: DateTime!
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
+  taxType: SpecialSaleDeductionType
+  taxValue: Int
   shipping: Int
   note: String
   user: UserCreateOneInput!
   customer: CustomerCreateOneInput
-  discount: SpecialSaleDeductionCreateOneInput
-  tax: SpecialSaleDeductionCreateOneInput
 }
 
 input SaleCreateOneInput {
@@ -1952,7 +1943,8 @@ type SaleItem implements Node {
   sale: Sale!
   product: Product!
   quantity: Int!
-  discount: SpecialSaleDeduction
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
 }
 
 """A connection to a list of items."""
@@ -1968,9 +1960,10 @@ type SaleItemConnection {
 input SaleItemCreateInput {
   id: ID
   quantity: Int!
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
   sale: SaleCreateOneInput!
   product: ProductCreateOneInput!
-  discount: SpecialSaleDeductionCreateOneInput
 }
 
 """An edge in a connection."""
@@ -1987,11 +1980,17 @@ enum SaleItemOrderByInput {
   id_DESC
   quantity_ASC
   quantity_DESC
+  discountType_ASC
+  discountType_DESC
+  discountValue_ASC
+  discountValue_DESC
 }
 
 type SaleItemPreviousValues {
   id: ID!
   quantity: Int!
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
 }
 
 type SaleItemSubscriptionPayload {
@@ -2035,13 +2034,16 @@ input SaleItemSubscriptionWhereInput {
 
 input SaleItemUpdateInput {
   quantity: Int
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
   sale: SaleUpdateOneRequiredInput
   product: ProductUpdateOneRequiredInput
-  discount: SpecialSaleDeductionUpdateOneInput
 }
 
 input SaleItemUpdateManyMutationInput {
   quantity: Int
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
 }
 
 input SaleItemWhereInput {
@@ -2115,9 +2117,40 @@ input SaleItemWhereInput {
 
   """All values greater than or equal the given value."""
   quantity_gte: Int
+  discountType: SpecialSaleDeductionType
+
+  """All values that are not equal to given value."""
+  discountType_not: SpecialSaleDeductionType
+
+  """All values that are contained in given list."""
+  discountType_in: [SpecialSaleDeductionType!]
+
+  """All values that are not contained in given list."""
+  discountType_not_in: [SpecialSaleDeductionType!]
+  discountValue: Int
+
+  """All values that are not equal to given value."""
+  discountValue_not: Int
+
+  """All values that are contained in given list."""
+  discountValue_in: [Int!]
+
+  """All values that are not contained in given list."""
+  discountValue_not_in: [Int!]
+
+  """All values less than the given value."""
+  discountValue_lt: Int
+
+  """All values less than or equal the given value."""
+  discountValue_lte: Int
+
+  """All values greater than the given value."""
+  discountValue_gt: Int
+
+  """All values greater than or equal the given value."""
+  discountValue_gte: Int
   sale: SaleWhereInput
   product: ProductWhereInput
-  discount: SpecialSaleDeductionWhereInput
 }
 
 input SaleItemWhereUniqueInput {
@@ -2129,6 +2162,14 @@ enum SaleOrderByInput {
   id_DESC
   timestamp_ASC
   timestamp_DESC
+  discountType_ASC
+  discountType_DESC
+  discountValue_ASC
+  discountValue_DESC
+  taxType_ASC
+  taxType_DESC
+  taxValue_ASC
+  taxValue_DESC
   shipping_ASC
   shipping_DESC
   note_ASC
@@ -2142,6 +2183,10 @@ enum SaleOrderByInput {
 type SalePreviousValues {
   id: ID!
   timestamp: DateTime!
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
+  taxType: SpecialSaleDeductionType
+  taxValue: Int
   shipping: Int
   note: String
   createdAt: DateTime!
@@ -2189,26 +2234,34 @@ input SaleSubscriptionWhereInput {
 
 input SaleUpdateDataInput {
   timestamp: DateTime
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
+  taxType: SpecialSaleDeductionType
+  taxValue: Int
   shipping: Int
   note: String
   user: UserUpdateOneRequiredInput
   customer: CustomerUpdateOneInput
-  discount: SpecialSaleDeductionUpdateOneInput
-  tax: SpecialSaleDeductionUpdateOneInput
 }
 
 input SaleUpdateInput {
   timestamp: DateTime
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
+  taxType: SpecialSaleDeductionType
+  taxValue: Int
   shipping: Int
   note: String
   user: UserUpdateOneRequiredInput
   customer: CustomerUpdateOneInput
-  discount: SpecialSaleDeductionUpdateOneInput
-  tax: SpecialSaleDeductionUpdateOneInput
 }
 
 input SaleUpdateManyMutationInput {
   timestamp: DateTime
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
+  taxType: SpecialSaleDeductionType
+  taxValue: Int
   shipping: Int
   note: String
 }
@@ -2296,6 +2349,70 @@ input SaleWhereInput {
 
   """All values greater than or equal the given value."""
   timestamp_gte: DateTime
+  discountType: SpecialSaleDeductionType
+
+  """All values that are not equal to given value."""
+  discountType_not: SpecialSaleDeductionType
+
+  """All values that are contained in given list."""
+  discountType_in: [SpecialSaleDeductionType!]
+
+  """All values that are not contained in given list."""
+  discountType_not_in: [SpecialSaleDeductionType!]
+  discountValue: Int
+
+  """All values that are not equal to given value."""
+  discountValue_not: Int
+
+  """All values that are contained in given list."""
+  discountValue_in: [Int!]
+
+  """All values that are not contained in given list."""
+  discountValue_not_in: [Int!]
+
+  """All values less than the given value."""
+  discountValue_lt: Int
+
+  """All values less than or equal the given value."""
+  discountValue_lte: Int
+
+  """All values greater than the given value."""
+  discountValue_gt: Int
+
+  """All values greater than or equal the given value."""
+  discountValue_gte: Int
+  taxType: SpecialSaleDeductionType
+
+  """All values that are not equal to given value."""
+  taxType_not: SpecialSaleDeductionType
+
+  """All values that are contained in given list."""
+  taxType_in: [SpecialSaleDeductionType!]
+
+  """All values that are not contained in given list."""
+  taxType_not_in: [SpecialSaleDeductionType!]
+  taxValue: Int
+
+  """All values that are not equal to given value."""
+  taxValue_not: Int
+
+  """All values that are contained in given list."""
+  taxValue_in: [Int!]
+
+  """All values that are not contained in given list."""
+  taxValue_not_in: [Int!]
+
+  """All values less than the given value."""
+  taxValue_lt: Int
+
+  """All values less than or equal the given value."""
+  taxValue_lte: Int
+
+  """All values greater than the given value."""
+  taxValue_gt: Int
+
+  """All values greater than or equal the given value."""
+  taxValue_gte: Int
   shipping: Int
 
   """All values that are not equal to given value."""
@@ -2404,223 +2521,15 @@ input SaleWhereInput {
   updatedAt_gte: DateTime
   user: UserWhereInput
   customer: CustomerWhereInput
-  discount: SpecialSaleDeductionWhereInput
-  tax: SpecialSaleDeductionWhereInput
 }
 
 input SaleWhereUniqueInput {
   id: ID
 }
 
-type SpecialSaleDeduction implements Node {
-  id: ID!
-  type: SpecialSaleDeductionType!
-  value: Int
-}
-
-"""A connection to a list of items."""
-type SpecialSaleDeductionConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [SpecialSaleDeductionEdge]!
-  aggregate: AggregateSpecialSaleDeduction!
-}
-
-input SpecialSaleDeductionCreateInput {
-  id: ID
-  type: SpecialSaleDeductionType!
-  value: Int
-}
-
-input SpecialSaleDeductionCreateOneInput {
-  create: SpecialSaleDeductionCreateInput
-  connect: SpecialSaleDeductionWhereUniqueInput
-}
-
-"""An edge in a connection."""
-type SpecialSaleDeductionEdge {
-  """The item at the end of the edge."""
-  node: SpecialSaleDeduction!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum SpecialSaleDeductionOrderByInput {
-  id_ASC
-  id_DESC
-  type_ASC
-  type_DESC
-  value_ASC
-  value_DESC
-}
-
-type SpecialSaleDeductionPreviousValues {
-  id: ID!
-  type: SpecialSaleDeductionType!
-  value: Int
-}
-
-type SpecialSaleDeductionSubscriptionPayload {
-  mutation: MutationType!
-  node: SpecialSaleDeduction
-  updatedFields: [String!]
-  previousValues: SpecialSaleDeductionPreviousValues
-}
-
-input SpecialSaleDeductionSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [SpecialSaleDeductionSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [SpecialSaleDeductionSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [SpecialSaleDeductionSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: SpecialSaleDeductionWhereInput
-}
-
 enum SpecialSaleDeductionType {
   FLAT
   PERCENTAGE
-}
-
-input SpecialSaleDeductionUpdateDataInput {
-  type: SpecialSaleDeductionType
-  value: Int
-}
-
-input SpecialSaleDeductionUpdateInput {
-  type: SpecialSaleDeductionType
-  value: Int
-}
-
-input SpecialSaleDeductionUpdateManyMutationInput {
-  type: SpecialSaleDeductionType
-  value: Int
-}
-
-input SpecialSaleDeductionUpdateOneInput {
-  create: SpecialSaleDeductionCreateInput
-  connect: SpecialSaleDeductionWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: SpecialSaleDeductionUpdateDataInput
-  upsert: SpecialSaleDeductionUpsertNestedInput
-}
-
-input SpecialSaleDeductionUpsertNestedInput {
-  update: SpecialSaleDeductionUpdateDataInput!
-  create: SpecialSaleDeductionCreateInput!
-}
-
-input SpecialSaleDeductionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [SpecialSaleDeductionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [SpecialSaleDeductionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [SpecialSaleDeductionWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  type: SpecialSaleDeductionType
-
-  """All values that are not equal to given value."""
-  type_not: SpecialSaleDeductionType
-
-  """All values that are contained in given list."""
-  type_in: [SpecialSaleDeductionType!]
-
-  """All values that are not contained in given list."""
-  type_not_in: [SpecialSaleDeductionType!]
-  value: Int
-
-  """All values that are not equal to given value."""
-  value_not: Int
-
-  """All values that are contained in given list."""
-  value_in: [Int!]
-
-  """All values that are not contained in given list."""
-  value_not_in: [Int!]
-
-  """All values less than the given value."""
-  value_lt: Int
-
-  """All values less than or equal the given value."""
-  value_lte: Int
-
-  """All values greater than the given value."""
-  value_gt: Int
-
-  """All values greater than or equal the given value."""
-  value_gte: Int
-}
-
-input SpecialSaleDeductionWhereUniqueInput {
-  id: ID
 }
 
 type Subscription {
@@ -2629,7 +2538,6 @@ type Subscription {
   saleItem(where: SaleItemSubscriptionWhereInput): SaleItemSubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
   customer(where: CustomerSubscriptionWhereInput): CustomerSubscriptionPayload
-  specialSaleDeduction(where: SpecialSaleDeductionSubscriptionWhereInput): SpecialSaleDeductionSubscriptionPayload
   sale(where: SaleSubscriptionWhereInput): SaleSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }

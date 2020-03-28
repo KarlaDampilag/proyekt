@@ -8,11 +8,6 @@ enum Permission {
   PERMISSIONUPDATE
 }
 
-enum SpecialSaleDeductionType {
-  FLAT
-  PERCENTAGE
-}
-
 type User {
   id: ID! @id
   email: String! @unique
@@ -73,10 +68,9 @@ type Customer {
   updatedAt: DateTime! @updatedAt
 }
 
-type SpecialSaleDeduction {
-  id: ID! @id
-  type: SpecialSaleDeductionType!
-  value: Int
+enum SpecialSaleDeductionType {
+  FLAT
+  PERCENTAGE
 }
 
 type Sale {
@@ -84,8 +78,10 @@ type Sale {
   timestamp: DateTime!
   user: User!
   customer: Customer
-  discount: SpecialSaleDeduction @relation(name: "DiscountOfSale")
-  tax: SpecialSaleDeduction @relation(name: "TaxOfSale")
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
+  taxType: SpecialSaleDeductionType
+  taxValue: Int
   shipping: Int
   note: String
   createdAt: DateTime! @createdAt
@@ -97,5 +93,6 @@ type SaleItem {
   sale: Sale!
   product: Product!
   quantity: Int!
-  discount: SpecialSaleDeduction @relation(name: "DiscountOfSaleItem")
+  discountType: SpecialSaleDeductionType
+  discountValue: Int
 }
