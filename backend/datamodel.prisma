@@ -65,6 +65,7 @@ type Address {
   city: String
   state: String
   zipCode: String
+  user: User! @relation(name: "OwnerOfCustomer")
 }
 
 type Customer {
@@ -72,8 +73,10 @@ type Customer {
   user: User!
   name: String!
   email: String
-  phone: Int
+  phone: String
   address: Address
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type SpecialSaleDeduction {
@@ -91,6 +94,8 @@ type Sale {
   tax: SpecialSaleDeduction @relation(name: "TaxOfSale")
   shipping: Int
   note: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type SaleItem {

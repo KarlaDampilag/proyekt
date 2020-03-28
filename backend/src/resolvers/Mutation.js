@@ -21,7 +21,7 @@ const Mutations = {
     const existingUser = await ctx.db.query.user({
       where: { email: args.email }
     });
-    
+
     if (existingUser) {
       throw new Error('Email is already taken')
     }
@@ -225,13 +225,13 @@ const Mutations = {
       throw new Error("You don't have the required permissions to perform this action.");
     }
 
-  // find the product
+    // find the product
     const product = await ctx.db.query.product({ where }, `{ id name user { id } }`);
 
     // check if user owns item, or if they have permissions
     const ownsProduct = product.user.id == ctx.request.userId;
     const hasPermissions = ctx.request.user.permissions.some(permission => (
-      ['ADMIN','PRODUCT'].includes(permission)
+      ['ADMIN', 'PRODUCT'].includes(permission)
     ));
 
     if (!ownsProduct && !hasPermissions) {
@@ -262,6 +262,71 @@ const Mutations = {
     }, info);
 
     return inventory;
+  },
+
+  async createCustomer(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+
+    const parameters = { ...args };
+    delete parameters.addressId;
+
+    let customer;
+
+    if (args.addressId) {
+      customer = await ctx.db.mutation.createCustomer({
+        data: {
+          // create a relationship between the customer and the user
+          user: {
+            connect: {
+              id: ctx.request.userId
+            }
+          },
+          // create relationship between the customer and the address
+          address: {
+            connect: {
+              id: args.addressId
+            }
+          },
+          ...parameters
+        }
+      }, info);
+    } else {
+      customer = await ctx.db.mutation.createCustomer({
+        data: {
+          // create a relationship between the customer and the user
+          user: {
+            connect: {
+              id: ctx.request.userId
+            }
+          },
+          ...parameters
+        }
+      }, info);
+    }
+
+    return customer;
+  },
+
+  async createAddress(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+
+    const customer = await ctx.db.mutation.createAddress({
+      data: {
+        // create a relationship between the address and the user
+        user: {
+          connect: {
+            id: ctx.request.userId
+          }
+        },
+        ...args
+      }
+    }, info);
+
+    return customer;
   },
 
   // async requestReset(parent, args, ctx, info) {

@@ -4,7 +4,7 @@ const { hasPermission } = require('../utils');
 const Query = {
   // products: forwardTo('db'),
   // categories: forwardTo('db'),
-  productsConnection: forwardTo('db'),
+  // productsConnection: forwardTo('db'),
   
   products(parent, args, ctx, info) {
     if (!ctx.request.userId) {
@@ -38,6 +38,22 @@ const Query = {
     }
     return ctx.db.query.inventories({}, info); // TODO only return categories that belong to the user
   },
+
+  customers(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+    return ctx.db.query.customers({}, info); // TODO only return what belongs to the user
+  },
+
+  addresses(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+    return ctx.db.query.addresses({}, info); // TODO only return what belongs to the user
+  },
+
+  
 
   me(parent, args, ctx, info) {
     // check if there is a current user ID
