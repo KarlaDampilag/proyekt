@@ -12,7 +12,7 @@ const Nav = (props) => {
           <Link href="/products">
             <a>Products</a>
           </Link>
-          <Link href="/">
+          <Link href="/sales">
             <a>Sales</a>
           </Link>
           <Link href="/inventories">

@@ -66,7 +66,7 @@ const AddInventoryButton = () => {
 
                             <Form.Item {...tailLayout}>
                                 <Button type="primary" htmlType="submit" disabled={loading}>
-                                    Add{loading && 'ing'} Inventory
+                                    Add{loading ? 'ing' : ' '} Inventory
                                 </Button>
                             </Form.Item>
                         </Form>

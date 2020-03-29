@@ -70,6 +70,20 @@ const Query = {
     );
   },
 
+  sales(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+    return ctx.db.query.sales({}, info); // TODO only return what belongs to the user
+  },
+
+  saleItems(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+    return ctx.db.query.saleItems({}, info); // TODO only return what belongs to the user
+  },
+
   me(parent, args, ctx, info) {
     // check if there is a current user ID
     if (!ctx.request.userId) {

@@ -22,15 +22,9 @@ type Mutation {
     # requestReset(email: String!): SuccessMessage
     # resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
     # updatePermissions(permissions: [Permission], userId: ID!): User
-    # addToCart(id: ID!): CartItem
-    # removeFromCart(id: ID!): CartItem
-    # createOrder(token: String!): Order!
 }
 
 type Query {
-    # items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, first: Int): [Item]!
-    # item(where: ItemWhereUniqueInput!): Item
-    # itemsConnection(where: ItemWhereUniqueInput): ItemConnection!
     me: User
     users: [User]!
     products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, first: Int): [Product]!
@@ -41,6 +35,8 @@ type Query {
     inventory(id: ID!): Inventory
     customers(orderBy: CustomerOrderByInput): [Customer]!
     customer(id: ID!): Customer
+    sales(orderBy: SaleOrderByInput): [Sale]!
+    saleItems(orderBy: SaleItemOrderByInput): [SaleItem]!
 }
 
 type User {

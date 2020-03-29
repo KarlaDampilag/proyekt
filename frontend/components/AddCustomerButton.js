@@ -51,7 +51,6 @@ const AddCustomerButton = () => {
     const [name, setName] = React.useState();
     const [email, setEmail] = React.useState();
     const [phone, setPhone] = React.useState();
-    const [addressId, setAddressId] = React.useState();
     const [street1, setStreet1] = React.useState();
     const [street2, setStreet2] = React.useState();
     const [city, setCity] = React.useState();
@@ -65,7 +64,7 @@ const AddCustomerButton = () => {
     const update = (cache, payload) => {
         const data = cache.readQuery({ query: ALL_CUSTOMERS_QUERY });
         data.customers.push(payload.data.createCustomer);
-        data.customers = _.sortBy(data.customers, 'createdAt');
+        data.customers = _.orderBy(data.customers, 'createdAt', ['desc']);
         cache.writeQuery({ query: ALL_CUSTOMERS_QUERY, data })
     }
 
@@ -157,7 +156,7 @@ const AddCustomerButton = () => {
                                 </Form.Item>
 
                                 <Form.Item {...tailLayout}>
-                                    <Button type="primary" htmlType="submit" disabled={loading}>Add{loading && 'ing'} Customer</Button>
+                                    <Button type="primary" htmlType="submit" disabled={loading}>Add{loading ? 'ing' : ' '} Customer</Button>
                                     <Button onClick={() => setIsShowingModal(false)}>Cancel</Button>
                                 </Form.Item>
                             </Form>

@@ -75,7 +75,6 @@ enum SpecialSaleDeductionType {
 
 type Sale {
   id: ID! @id
-  timestamp: DateTime!
   user: User!
   customer: Customer
   discountType: SpecialSaleDeductionType
@@ -95,4 +94,6 @@ type SaleItem {
   quantity: Int!
   discountType: SpecialSaleDeductionType
   discountValue: Int
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }

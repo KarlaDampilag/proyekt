@@ -3,7 +3,6 @@ import gql from 'graphql-tag';
 import { Modal, Button, Input, Form, Select, Spin, message } from 'antd';
 
 import { ALL_PRODUCTS_QUERY } from './Products';
-import CategoriesInput from './CategoriesInput';
 
 const CREATE_PRODUCT_MUTATION = gql`
 mutation CREATE_PRODUCT_MUTATION(
@@ -216,7 +215,7 @@ const AddProductButton = () => {
                                         </Form.Item>
 
                                         <Form.Item {...tailLayout}>
-                                            <Button type="primary" htmlType="submit" disabled={createProductLoading || isLoading || loading}>Add{createProductLoading || isLoading || loading && 'ing'} Product</Button>
+                                            <Button type="primary" htmlType="submit" disabled={createProductLoading || isLoading || loading}>Add{createProductLoading || isLoading || loading ? 'ing ' : ' '} Product</Button>
                                             <Button onClick={() => setIsShowingModal(false)}>Cancel</Button>
                                         </Form.Item>
                                     </Form>
